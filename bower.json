@@ -1,0 +1,28 @@
+{
+  "name": "sir-trevor-adapter",
+  "version": "1.0.0",
+  "homepage": "https://github.com/Upplication/sir-trevor-adapter",
+  "authors": [
+    "Souler <juanjo.herrero@upplication.com>"
+  ],
+  "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML. This allows almost smealess integration of SirTrevor with backend architectures based on traditional WYSIWYG libraries.",
+  "main": "src/sir-trevor-adapter.js",
+  "keywords": [
+    "sir",
+    "trevor",
+    "sirtrevor",
+    "html",
+    "json",
+    "wysiwyg",
+    "integration",
+    "textarea"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
