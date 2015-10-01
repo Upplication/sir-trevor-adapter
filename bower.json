@@ -22,7 +22,7 @@
   ],
   "ignore": [
     "src/*",
-    "doc/*",
+    "doc/*"
   ],
   "license": "MIT",
   "ignore": [
