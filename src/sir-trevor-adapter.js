@@ -25,15 +25,15 @@
 	 * recives as first argument the data of the SirTrevorData.
 	 */
 	var templates = {
-		'text': '<%- text %>',
-		'quote': '<quote><%- text %></quote>',
-		'image': '<div><img src="<%= src %></div>', // Still needs work (Backend implementation)
-		'heading': '<h2><%- text %></h2>',
+		'text': '<%= text %>',
+		'quote': '<quote><%= text %></quote>',
+		'image': '<div><img src="<%- src %></div>', // Still needs work (Backend implementation)
+		'heading': '<h2><%= text %></h2>',
 		'list': '<ul><% _.each(listItems, function(e) { %><li><%- e %></li><% }) %></ul>',
 		'tweet': '<div></div>', // TODO
 		'video': '<div></div>', // TODO
-		'button': '<%- text %>',
-		'widget': '<%- text %>'
+		'button': '<%= text %>',
+		'widget': '<%= text %>'
 	}
 
 	/**
