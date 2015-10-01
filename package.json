@@ -1,0 +1,37 @@
+{
+  "name": "sir-trevor-adapter",
+  "version": "1.0.2",
+  "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML. This allows almost smealess integration of SirTrevor with backend architectures based on traditional WYSIWYG libraries.\",",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-jsdoc": "^0.1.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Upplication/sir-trevor-adapter.git"
+  },
+  "keywords": [
+    "sir",
+    "trevor",
+    "sirtrevor",
+    "html",
+    "json",
+    "wysiwyg",
+    "integration",
+    "textarea"
+  ],
+  "author": "Upplication",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Upplication/sir-trevor-adapter/issues"
+  },
+  "homepage": "https://github.com/Upplication/sir-trevor-adapter#readme"
+}
