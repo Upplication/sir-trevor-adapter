@@ -6,7 +6,10 @@
     "Souler <juanjo.herrero@upplication.com>"
   ],
   "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML. This allows almost smealess integration of SirTrevor with backend architectures based on traditional WYSIWYG libraries.",
-  "main": "src/sir-trevor-adapter.js",
+  "main": [
+    "sir-trevor-adapter.js",
+    "sir-trevor-adapter.min.js"
+  ],
   "keywords": [
     "sir",
     "trevor",
@@ -16,6 +19,10 @@
     "wysiwyg",
     "integration",
     "textarea"
+  ],
+  "ignore": [
+    "src/*",
+    "doc/*",
   ],
   "license": "MIT",
   "ignore": [
