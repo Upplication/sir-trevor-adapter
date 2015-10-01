@@ -25,15 +25,41 @@
      * recives as first argument the data of the SirTrevorData.
      */
     var templates = {
-        'text': '<%= text %>',
-        'quote': '<quote><%= text %></quote>',
-        'image': '<div><img src="<%- src %></div>', // Still needs work (Backend implementation)
-        'heading': '<h2><%= text %></h2>',
-        'list': '<ul><% _.each(listItems, function(e) { %><li><%- e %></li><% }) %></ul>',
-        'tweet': '<div></div>', // TODO
-        'video': '<div></div>', // TODO
-        'button': '<%= text %>',
-        'widget': '<%= text %>'
+        text: '<%= text %>',
+        quote: '<quote><%= text %></quote>',
+        image: '<div><img src="<%- src %></div>', // Still needs work (Backend implementation)
+        heading: '<h2><%= text %></h2>',
+        list: '<ul><% _.each(listItems, function(e) { %><li><%- e %></li><% }) %></ul>',
+        tweet: '<div></div>', // TODO
+        button: '<%= text %>',
+        widget: '<%= text %>',
+        video: function(data) {
+
+            // more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
+            var providers = {
+                vimeo: {
+                    regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo\.co(?:.+(?:\/)([^\/].*)+$)/,
+                    html: "<iframe src=\"<%= protocol %>//player.vimeo.com/video/<%= remote_id %>?title=0&byline=0\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
+                },
+                youtube: {
+                    regex: /^.*(?:(?:youtu\.be\/)|(?:youtube\.com)\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*)/,
+                    html: "<iframe src=\"<%= protocol %>//www.youtube.com/embed/<%= remote_id %>\" width=\"580\" height=\"320\" frameborder=\"0\" allowfullscreen></iframe>"
+                }
+            };
+
+            if (!providers.hasOwnProperty(data.source))
+                return "";
+
+            var source = providers[data.source];
+
+            var protocol = window.location.protocol === "file:" ? 
+              "http:" : window.location.protocol;
+
+            return _.template(source.html, {
+                protocol: protocol,
+                remote_id: data.remote_id
+            });
+        },
     }
 
     /**
