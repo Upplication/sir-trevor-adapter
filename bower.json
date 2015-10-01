@@ -25,7 +25,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "doc",
+    "src"
   ],
   "license": "MIT"
 }
