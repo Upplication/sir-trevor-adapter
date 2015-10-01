@@ -1,6 +1,6 @@
 {
   "name": "sir-trevor-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/Upplication/sir-trevor-adapter",
   "authors": [
     "Souler <juanjo.herrero@upplication.com>"
@@ -21,15 +21,11 @@
     "textarea"
   ],
   "ignore": [
-    "src/*",
-    "doc/*"
-  ],
-  "license": "MIT",
-  "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "license": "MIT"
 }
