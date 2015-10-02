@@ -27,7 +27,9 @@
     "test",
     "tests",
     "doc",
-    "src"
+    "src",
+    "package.json",
+    "gulpfile.js"
   ],
   "license": "MIT"
 }
