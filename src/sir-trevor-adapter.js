@@ -29,7 +29,7 @@
         quote: '<quote><%= text %></quote>',
         image: '<div><img src="<%- src %></div>', // Still needs work (Backend implementation)
         heading: '<h2><%= text %></h2>',
-        list: '<ul><% _.each(listItems, function(e) { %><li><%- e %></li><% }) %></ul>',
+        list: '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
         tweet: '<div></div>', // TODO
         button: '<%= text %>',
         widget: '<%= text %>',
