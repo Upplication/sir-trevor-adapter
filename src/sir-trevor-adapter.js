@@ -189,4 +189,4 @@
     SirTrevorAdapter.prototype.fromHTML = SirTrevorAdapter.prototype.toJSON;
 
     return SirTrevorAdapter;
-}))
+}));
