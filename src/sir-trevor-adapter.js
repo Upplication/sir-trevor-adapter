@@ -28,7 +28,7 @@
         'text': '<%= text %>',
         'quote': '<quote><%= text %></quote>',
         'image': '<div><img src="<%- file.url %></div>',
-        'image-edit': '<div><img src="<%- file.url %></div>',
+        'image_edit': '<div><img src="<%- file.url %></div>',
         'heading': '<h2><%= text %></h2>',
         'list': '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
         'tweet': '<div></div>', // TODO
