@@ -25,15 +25,16 @@
      * recives as first argument the data of the SirTrevorData.
      */
     var templates = {
-        text: '<%= text %>',
-        quote: '<quote><%= text %></quote>',
-        image: '<div><img src="<%- src %></div>', // Still needs work (Backend implementation)
-        heading: '<h2><%= text %></h2>',
-        list: '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
-        tweet: '<div></div>', // TODO
-        button: '<%= text %>',
-        widget: '<%= text %>',
-        video: function(data) {
+        'text': '<%= text %>',
+        'quote': '<quote><%= text %></quote>',
+        'image': '<div><img src="<%- file.url %></div>',
+        'image-edit': '<div><img src="<%- file.url %></div>',
+        'heading': '<h2><%= text %></h2>',
+        'list': '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
+        'tweet': '<div></div>', // TODO
+        'button': '<%= text %>',
+        'widget': '<%= text %>',
+        'video': function(data) {
 
             // more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
             var providers = {
@@ -187,6 +188,10 @@
         return result;
     }
     SirTrevorAdapter.prototype.fromHTML = SirTrevorAdapter.prototype.toJSON;
+
+    // Expose static field
+    SirTrevorAdapter.Defaults = {};
+    SirTrevorAdapter.Defaults.Templates = templates;
 
     return SirTrevorAdapter;
 }));
