@@ -3,7 +3,9 @@
   "version": "1.0.9",
   "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML. This allows almost smealess integration of SirTrevor with backend architectures based on traditional WYSIWYG libraries.\",",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-add-src": "^0.2.0"
+  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-bump": "^1.0.0",
