@@ -176,10 +176,12 @@
         }
 
         var container = $('<' + this.config.elementEnclosingTag + '>', { class: this.config.elementClass + '-container' });
+        var mapped = json.map(this.map, this).join('\n');
+
         if (wasArray)
-            return '<div class="st-render-container">' + json.map(this.map, this).join('\n') + '</div>';
+            return '<div class="st-render-container">' + mapped + '</div>';
         else
-            json.map(this.map, this).join('\n'):
+            return mapped;
     }
     SirTrevorAdapter.prototype.fromJSON = SirTrevorAdapter.prototype.toHTML;
 
