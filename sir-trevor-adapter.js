@@ -169,10 +169,19 @@
      * @requires lodash
      */
     SirTrevorAdapter.prototype.toHTML = function(json) {
-        if (!_.isArray(json))
+        var wasArray = true;
+        if (!_.isArray(json)) {
             json = [ json ];
+            wasArray = false;
+        }
+
         var container = $('<' + this.config.elementEnclosingTag + '>', { class: this.config.elementClass + '-container' });
-        return '<div class="st-render-container">' + json.map(this.map, this).join('\n') + '</div>';
+        var mapped = json.map(this.map, this).join('\n');
+
+        if (wasArray)
+            return '<div class="st-render-container">' + mapped + '</div>';
+        else
+            return mapped;
     }
     SirTrevorAdapter.prototype.fromJSON = SirTrevorAdapter.prototype.toHTML;
 
