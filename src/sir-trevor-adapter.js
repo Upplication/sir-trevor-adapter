@@ -50,6 +50,7 @@
             a.css('padding-top', '0.8em');
             a.css('padding-bottom', '0.5em');
             a.css('text-align', 'center');
+            a.css('margin', '0 auto');
 
             return a[0].outerHTML;
         },
