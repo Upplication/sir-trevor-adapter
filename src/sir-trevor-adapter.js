@@ -49,7 +49,7 @@
             a.css('border-style', 'solid');
             a.css('padding-top', '0.8em');
             a.css('padding-bottom', '0.5em');
-            a.css('color', 'inherit');
+            a.css('text-align', 'center');
 
             return a[0].outerHTML;
         },
