@@ -32,8 +32,27 @@
         'heading': '<h2><%= text %></h2>',
         'list': '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
         'tweet': '<div></div>', // TODO
-        'button': '<%= text %>',
         'widget': '<%= text %>',
+        'button': function(data) {
+            var a = $('<a>');
+            a.html(data.text);
+            a.attr('href', data.href);
+            Object.keys(data).filter(function (b) { return /^css\-/.test(b); })
+                .forEach(function (b) {
+                    var prop = b.replace(/^css\-/, '');
+                    a.css(prop, data[b]);
+                });
+
+            // Other css necesary 
+            a.css('display', 'block');
+            a.css('box-sizing', 'border-box');
+            a.css('border-style', 'solid');
+            a.css('padding-top', '0.8em');
+            a.css('padding-bottom', '0.5em');
+            a.css('color', 'inherit');
+
+            return a[0].outerHTML;
+        },
         'video': function(data) {
 
             // more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
@@ -75,7 +94,7 @@
      * @property {String} elementClass - Defines the class to be added to the HTML added arround every SirTrevorData serialized by this instance.
      * @property {boolean} addElementTypeClass - Determines if a type specific class should be added alongside the `elementClass`.
      * @property {String} attrName - Defines the attribute name added to the HTML for each SirTrevorData. Note this will be always prepended by `data-`
-     * @property {SirTrevorAdapterTemplates} @see SirTrevorAdapterTemplates
+     * @property {SirTrevorAdapterTemplates} templates - @see SirTrevorAdapterTemplates
      */
     var defaultConfig = {
         elementEnclosingTag: 'div',
