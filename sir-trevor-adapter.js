@@ -101,6 +101,7 @@
         elementEnclosingTag: 'div',
         elementClass : 'st-render',
         addElementTypeClass : true,
+        containerClass: 'st-render-container',
         attrName: 'st',
     }
 
@@ -199,7 +200,7 @@
         var mapped = json.map(this.map, this).join('\n');
 
         if (wasArray)
-            return '<div class="st-render-container">' + mapped + '</div>';
+            return '<div class="' + this.config.containerClass + '">' + mapped + '</div>';
         else
             return mapped;
     }
