@@ -100,7 +100,6 @@
     var defaultConfig = {
         elementEnclosingTag: 'div',
         elementClass : 'st-render',
-        containerClass: 'st-render-container',
         addElementTypeClass : true,
         attrName: 'st',
     }
@@ -200,7 +199,7 @@
         var mapped = json.map(this.map, this).join('\n');
 
         if (wasArray)
-            return '<div class="' + this.config.containerClass + '">' + mapped + '</div>';
+            return '<div class="st-render-container">' + mapped + '</div>';
         else
             return mapped;
     }
