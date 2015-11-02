@@ -148,10 +148,19 @@
             return '';
         }
 
-        if (_.isFunction(template))
-            return template(data);
-        else
-            return _.template(template, data);
+        var result = "";
+
+        try {
+            if (_.isFunction(template))
+                result = template(data);
+            else
+                result = _.template(template, data);
+        } catch(e) {
+            console.error("Error while generating templated view for " + type);
+            console.error(e);
+        }
+
+        return result;
     }
 
     /**
