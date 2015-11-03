@@ -153,7 +153,7 @@
                                 .reduce(function (v, c) {
                                     if (v !== null) // We already found a candidate
                                         return v;
-                                    if (type == c.substring(0, type.length))
+                                    if (c == type.substring(0, c.length))
                                         return c;
                                     else
                                         return null;
