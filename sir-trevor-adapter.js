@@ -28,7 +28,6 @@
         'text': '<%= text %>',
         'quote': '<quote><%= text %></quote>',
         'image': '<div><img src="<%- file.url %>"/></div>',
-        'image_edit': '<div><img src="<%- file.url %>"/></div>',
         'heading': '<h2><%= text %></h2>',
         'list': '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
         'tweet': '<div></div>', // TODO
@@ -141,11 +140,30 @@
      * @requires lodash
     */
     SirTrevorAdapter.prototype.renderType = function(type, data) {
+
+        if (!type)
+            throw new Error('type can\'t be undefined');
+
         var template = this.templates[type];
 
         if (!template) {
-            console.error('No template for type ' + type);
-            return '';
+            // There is not a direct candidate, we are trying to do our best in
+            // finding a possible one (maybe we are trying to render an extended version of a module (e.g. image -> image_edit))
+            var guessed = Object.keys(this.templates)
+                                .reduce(function (v, c) {
+                                    if (v !== null) // We already found a candidate
+                                        return v;
+                                    if (type.equals(c.substring(0, type.length)))
+                                        return c;
+                                    else
+                                        return null;
+                                }, null);
+
+            if (!guessed) {
+                console.error('No template for type ' + type);
+                return '';
+            } else
+                template = this.templates[guessed];
         }
 
         var result = "";
