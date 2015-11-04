@@ -25,14 +25,24 @@
      * recives as first argument the data of the SirTrevorData.
      */
     var templates = {
-        'text': '<%= text %>',
-        'quote': '<quote><%= text %></quote>',
-        'image': '<div><img src="<%- file.url %>"/></div>',
-        'heading': '<h2><%= text %></h2>',
-        'list': '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
-        'tweet': '<div></div>', // TODO
-        'widget': '<%= text %>',
-        'button': function(data) {
+        text: function(data) {
+            var template = '<%= text %>';
+            if (data.align)
+                template = '<div style="text-align:<%= align %>">' + template + '</div>';
+            return _.template(template, data);
+        },
+        quote: '<quote><%= text %></quote>',
+        image: '<div><img src="<%- file.url %>"/></div>',
+        heading: function(data) {
+            var template = '<h2><%= text %></h2>';
+            if (data.align)
+                template = '<div style="text-align:<%= align %>">' + template + '</div>';
+            return _.template(template, data);
+        },
+        list: '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
+        tweet: '<div></div>', // TODO
+        widget: '<%= text %>',
+        button: function(data) {
             var a = $('<a>');
             a.html(data.text);
             a.attr('href', data.href);
@@ -53,7 +63,7 @@
 
             return a[0].outerHTML;
         },
-        'video': function(data) {
+        video: function(data) {
 
             // more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
             var providers = {
@@ -80,7 +90,7 @@
                 remote_id: data.remote_id
             });
         },
-        'map': function(data) {
+        map: function(data) {
             var img_src = _.template("https://maps.googleapis.com/maps/api/staticmap?size=<%= width %>x<%= height %>&center=<%= address %>&markers=|<%= address %>&zoom=<%= zoom %>&scale=2", data);
             var map_ref = _.template("http://maps.google.com/maps?q=<%= address %>", data);
             var template = '<a href="<%= map_ref %>"><img src="<%= img_src %>" /></a>';
