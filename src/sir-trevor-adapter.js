@@ -53,13 +53,14 @@
                 });
 
             // Other css necesary 
+            a.css('overflow', 'hidden');
             a.css('display', 'block');
+            a.css('line-height', 'normal');
             a.css('box-sizing', 'border-box');
             a.css('border-style', 'solid');
-            a.css('padding-top', '0.8em');
-            a.css('padding-bottom', '0.5em');
             a.css('text-align', 'center');
             a.css('margin', '0 auto');
+            a.find('*').css('margin', '0');
 
             return a[0].outerHTML;
         },
@@ -95,6 +96,11 @@
             var map_ref = _.template("http://maps.google.com/maps?q=<%= address %>", data);
             var template = '<a href="<%= map_ref %>"><img src="<%= img_src %>" /></a>';
             return _.template(template, { img_src: img_src, map_ref: map_ref });
+        },
+        spacer: function(data) {
+            var div = $('<div>');
+            div.css('margin', data.height + data.units + ' 0');
+            return div[0].outerHTML;
         }
     }
 
@@ -127,7 +133,7 @@
 
         delete config.template;
         this.config = _.defaults(defaultConfig, config);
-    };
+    }
 
     /**
      * @private
@@ -148,7 +154,7 @@
      * @returns {String} The compiled HTML for the combination of arguments given. If a not valid type is given an empty String is returned.
      * @memberof SirTrevorAdapter
      * @requires lodash
-    */
+     */
     SirTrevorAdapter.prototype.renderType = function(type, data) {
 
         if (!type)
@@ -172,6 +178,8 @@
             if (!guessed) {
                 console.error('No template for type ' + type);
                 return '';
+            } else if (data.type == 'html' && data.text && data.text.length > 0) {
+                template = this.templates.text;
             } else
                 template = this.templates[guessed];
         }
