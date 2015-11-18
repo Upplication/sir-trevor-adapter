@@ -175,11 +175,12 @@
                                         return null;
                                 }, null);
 
+            if (!guessed && data.type == 'html' && data.text && data.text.length > 0)
+                guessed = 'text';
+
             if (!guessed) {
                 console.error('No template for type ' + type);
                 return '';
-            } else if (data.type == 'html' && data.text && data.text.length > 0) {
-                template = this.templates.text;
             } else
                 template = this.templates[guessed];
         }
