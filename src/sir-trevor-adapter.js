@@ -43,6 +43,8 @@
         tweet: '<div></div>', // TODO
         widget: '<%= text %>',
         button: function(data) {
+            var container = $('<div>');
+
             var a = $('<a>');
             a.html(data.text);
             a.attr('href', data.href);
@@ -62,7 +64,13 @@
             a.css('margin', '0 auto');
             a.find('*').css('margin', '0');
 
-            return a[0].outerHTML;
+            var clear = $('<div>');
+            clear.css('clear', 'both');
+
+            container.append(a);
+            container.append(clear);
+
+            return container.html();
         },
         video: function(data) {
 
