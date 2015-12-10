@@ -1,287 +1,498 @@
-(function (factory) {
-    var global = window;
-    var $ = global.$ || global.jQuery;
-    var _ = global._ || global.lodash;
+var SirTrevorAdapter =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 
-    if (!$) throw new Error('SirTrevorAdapter requires jQuery');
-    if (!_) throw new Error('SirTrevorAdapter requires lodash');
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 
-    global.SirTrevorAdapter = factory($, _);
-} (function($, _) {
-    'use strict';
-    /** @class SirTrevorAdapter */
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
 
-    /**
-     * The minimun representation for a SirTrevor data instance.
-     * @typedef {Object} SirTrevorData
-     * @property {String} type - The type of this instance
-     * @property {Object} data - The data that represents the object type.
-     */
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
 
-    /**
-     * @typedef {Object} SirTrevorAdapterTemplates
-     * Each key for this template should correspond to a SirTrevorData type. The value can be
-     * a String that will be interpolated via `lodash.template` or a `function (data)` that
-     * recives as first argument the data of the SirTrevorData.
-     */
-    var templates = {
-        text: function(data) {
-            var template = '<%= text %>';
-            if (data.align)
-                template = '<div style="text-align:<%= align %>">' + template + '</div>';
-            return _.template(template, data);
-        },
-        quote: '<quote><%= text %></quote>',
-        image: '<div><img src="<%- file.url %>"/></div>',
-        heading: function(data) {
-            var template = '<h2><%= text %></h2>';
-            if (data.align)
-                template = '<div style="text-align:<%= align %>">' + template + '</div>';
-            return _.template(template, data);
-        },
-        list: '<ul><% _.each(listItems, function(e) { %><li><%- e.content %></li><% }) %></ul>',
-        tweet: '<div></div>', // TODO
-        widget: '<%= text %>',
-        button: function(data) {
-            var container = $('<div>');
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-            var a = $('<a>');
-            a.html(data.text);
-            a.attr('href', data.href);
-            Object.keys(data).filter(function (b) { return /^css\-/.test(b); })
-                .forEach(function (b) {
-                    var prop = b.replace(/^css\-/, '');
-                    a.css(prop, data[b]);
-                });
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 
-            // Other css necesary 
-            a.css('overflow', 'hidden');
-            a.css('display', 'block');
-            a.css('line-height', 'normal');
-            a.css('box-sizing', 'border-box');
-            a.css('border-style', 'solid');
-            a.css('text-align', 'center');
-            a.css('margin', '0 auto');
-            a.find('*').css('margin', '0');
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 
-            var clear = $('<div>');
-            clear.css('clear', 'both');
 
-            container.append(a);
-            container.append(clear);
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 
-            return container.html();
-        },
-        video: function(data) {
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 
-            // more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
-            var providers = {
-                vimeo: {
-                    regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo\.co(?:.+(?:\/)([^\/].*)+$)/,
-                    html: "<iframe src=\"<%= protocol %>//player.vimeo.com/video/<%= remote_id %>?title=0&byline=0\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
-                },
-                youtube: {
-                    regex: /^.*(?:(?:youtu\.be\/)|(?:youtube\.com)\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*)/,
-                    html: "<iframe src=\"<%= protocol %>//www.youtube.com/embed/<%= remote_id %>\" width=\"580\" height=\"320\" frameborder=\"0\" allowfullscreen></iframe>"
-                }
-            };
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 
-            if (!providers.hasOwnProperty(data.source))
-                return "";
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-            var source = providers[data.source];
+	'use strict'
 
-            var protocol = window.location.protocol === "file:" ? 
-              "http:" : window.location.protocol;
+	/**
+	 * @typedef {Object} SirTrevorAdapterConfig
+	 * @property {String} elementEnclosingTag - Defines the HTML tag to be used arround every SirTrevorData that is serialized by this instance.
+	 * @property {String} elementClass - Defines the class to be added to the HTML added arround every SirTrevorData serialized by this instance.
+	 * @property {boolean} addElementTypeClass - Determines if a type specific class should be added alongside the `elementClass`.
+	 * @property {String} attrName - Defines the attribute name added to the HTML for each SirTrevorData. Note this will be always prepended by `data-`
+	 */
+	var defaultConfig = {
+	    elementEnclosingTag: 'div',
+	    elementClass : 'st-render',
+	    addElementTypeClass : true,
+	    containerClass: 'st-render-container',
+	    attrName: 'st',
+	    attrType: 'st-type'
+	}
 
-            return _.template(source.html, {
-                protocol: protocol,
-                remote_id: data.remote_id
-            });
-        },
-        map: function(data) {
-            var img_src = _.template("https://maps.googleapis.com/maps/api/staticmap?size=<%= width %>x<%= height %>&center=<%= address %>&markers=|<%= address %>&zoom=<%= zoom %>&scale=2", data);
-            var map_ref = _.template("http://maps.google.com/maps?q=<%= address %>", data);
-            var template = '<a href="<%= map_ref %>"><img src="<%= img_src %>" /></a>';
-            return _.template(template, { img_src: img_src, map_ref: map_ref });
-        },
-        spacer: function(data) {
-            var div = $('<div>');
-            div.css('margin', data.height + data.units + ' 0');
-            return div[0].outerHTML;
-        }
-    }
+	SirTrevorAdapter = function(userConfig, adapters) {
 
-    /**
-     * @typedef {Object} SirTrevorAdapterConfig
-     * @property {String} elementEnclosingTag - Defines the HTML tag to be used arround every SirTrevorData that is serialized by this instance.
-     * @property {String} elementClass - Defines the class to be added to the HTML added arround every SirTrevorData serialized by this instance.
-     * @property {boolean} addElementTypeClass - Determines if a type specific class should be added alongside the `elementClass`.
-     * @property {String} attrName - Defines the attribute name added to the HTML for each SirTrevorData. Note this will be always prepended by `data-`
-     * @property {SirTrevorAdapterTemplates} templates - @see SirTrevorAdapterTemplates
-     */
-    var defaultConfig = {
-        elementEnclosingTag: 'div',
-        elementClass : 'st-render',
-        addElementTypeClass : true,
-        containerClass: 'st-render-container',
-        attrName: 'st',
-    }
+	    return {
+	        config: Object.assign({}, defaultConfig, userConfig || {}),
+	        adapters: adapters || [
+	            __webpack_require__(1),
+	            __webpack_require__(2),
+	            __webpack_require__(3),
+	            __webpack_require__(4),
+	            __webpack_require__(5),
+	            __webpack_require__(6),
+	            __webpack_require__(7),
+	        ],
 
-    /**
-     * Creates a new instance of SirTrevorAdapter. Each instance has its own config and templates.
-     * @constructor
-     * @param {SirTrevorAdapterConfig}
-     * @see SirTrevorAdapterConfig
-     * @see SirTrevorAdapterTemplates
-     */
-    var SirTrevorAdapter = function(config) {
-        config = config || {};
-        this.templates = _.defaults(config.templates || {}, templates);
+	        /**
+	         * @private
+	         * @param {Mixed} obj - The object of study
+	         * @returns {boolean} {true} if the given obj is a valid {SirTrevorData}; or {false} otherwise
+	         * @requires lodash
+	         * @memberof SirTrevorAdapter
+	         */
+	        isSirTrevorData: function(obj) {
+	            return obj && obj.type && obj.data && _.isObject(obj.data);
+	        },
 
-        delete config.template;
-        this.config = _.defaults(defaultConfig, config);
-    }
+	        /**
+	         * Given a data (or a data type) returns the first handler that can handle the 
+	         * specified type. If no adapter is found, returns null.
+	         * @param {SirTrevorData | String} data - An instance of sir trevor data (containing a type field) or a type name itself.
+	         * @returns {SirTrevorTypeAdapter} The adapter that can handle the given type (or null)
+	         */
+	        getAdapterFor: function(data) {
+	            var type = data.type || data;
+	            return this.adapters.reduce(function(adapter, current) {
+	                if (adapter)
+	                    return adapter;
 
-    /**
-     * @private
-     * @param {Mixed} obj - The object of study
-     * @returns {boolean} {true} if the given obj is a valid {SirTrevorData}; or {false} otherwise
-     * @requires lodash
-     * @memberof SirTrevorAdapter
-     */
-    SirTrevorAdapter.prototype._isSirTrevorData = function(obj) {
-        return obj && obj.type && obj.data && _.isObject(obj.data);
-    };
+	                if (current.handles.indexOf(type) >= 0)
+	                    return current;
+	                else
+	                    return null;
+	            }, null);
+	        },
 
-    /**
-     * @public
-     * @desc Finds the HTML template for the type given and compiles it with the data provided.
-     * @param {String} type - The type of template you want to render.
-     * @param {Object} data - The data to be used as template replacements.
-     * @returns {String} The compiled HTML for the combination of arguments given. If a not valid type is given an empty String is returned.
-     * @memberof SirTrevorAdapter
-     * @requires lodash
-     */
-    SirTrevorAdapter.prototype.renderType = function(type, data) {
+	        /**
+	         * Given a collection (or a single) instance of SirTrevorData, the function returns an HTML that contains
+	         * the rendered view for each element warped arround a single DOM element.
+	         * @param {SirTrevorData | SirTrevorData[]} json - The data to be serialized to HTML.
+	         * @returns {String} The HTML representation of each element. Also contains enough data for recover the original JSON afterwards.
+	         * @memberof SirTrevorAdapter
+	         * @requires lodash
+	         */
+	        toHTML: function(data) {
+	            var wasArray = true;
+	            if (!_.isArray(data)) {
+	                data = [ data ];
+	                wasArray = false;
+	            }
 
-        if (!type)
-            throw new Error('type can\'t be undefined');
+	            var self = this;
 
-        var template = this.templates[type];
+	            // This is an inner function that maps each ST data insatnce ( {data:..., type:...} ) to html
+	            var mapper = function (dataInstance) {
 
-        if (!template) {
-            // There is not a direct candidate, we are trying to do our best in
-            // finding a possible one (maybe we are trying to render an extended version of a module (e.g. image -> image_edit))
-            var guessed = Object.keys(this.templates)
-                                .reduce(function (v, c) {
-                                    if (v !== null) // We already found a candidate
-                                        return v;
-                                    if (c == type.substring(0, c.length))
-                                        return c;
-                                    else
-                                        return null;
-                                }, null);
+	                if (!self.isSirTrevorData(dataInstance))
+	                    throw Error('No valid SirTrevorData ' + dataInstance);
 
-            if (!guessed && data.type == 'html' && data.text && data.text.length > 0)
-                guessed = 'text';
+	                var handler = self.getAdapterFor(dataInstance);
+	                if (!handler)
+	                    throw Error('No handler for ' + dataInstance.type);
 
-            if (!guessed) {
-                console.error('No template for type ' + type);
-                return '';
-            } else
-                template = this.templates[guessed];
-        }
+	                // -- No errors so far, start building the container
 
-        var result = "";
+	                var container = $('<' + self.config.elementEnclosingTag + '>');
 
-        try {
-            if (_.isFunction(template))
-                result = template(data);
-            else
-                result = _.template(template, data);
-        } catch(e) {
-            console.error("Error while generating templated view for " + type);
-            console.error(e);
-        }
+	                container.addClass(self.config.elementClass);
+	                if (self.config.addElementTypeClass) // If the config is set, also add the element type associated class
+	                    container.addClass(self.config.elementClass + '-' + dataInstance.type);
 
-        return result;
-    }
+	                container.html(handler.toHTML(dataInstance.data, dataInstance.type));
+	                container.attr('data-' + self.config.attrType, dataInstance.type);
 
-    /**
-     * Given a SirTrevor object this function returns the HTML that will be able to serve as a representation
-     * of the given object and also it is an HTML that this library is able to convert back to the original
-     * JSON representation
-     * @param {Object} obj - An instance of SirTrevor data, this must contain type and data properties.
-     * @returns {String} The HTML generated for the given object.
-     * @memberof SirTrevorAdapter
-     * @requires jQuery
-     */
-    SirTrevorAdapter.prototype.map = function(obj) {
-        if (!this._isSirTrevorData(obj)) {
-            console.error(JSON.stringify(obj) + ' is not a valid SirTrevor object');
-            return '';
-        }
+	                return container[0].outerHTML;
+	            };
 
-        var innerHTML = this.renderType(obj.type, obj.data);
-        var classes = [ this.config.elementClass ];
-        // If the config is set, also add the element type associated class
-        if (this.config.addElementTypeClass)
-            classes.push (this.config.elementClass + '-' + obj.type);
+	            var mapped = data.map(mapper);
 
-        var container = $('<' + this.config.elementEnclosingTag + '>', { class: classes.join(' ') });
-        container.attr('data-' + this.config.attrName, JSON.stringify(obj));
-        container.html(innerHTML);
-        return container[0].outerHTML;
-    }
+	            if (wasArray)
+	                return '<div class="' + self.config.containerClass + '">' + mapped.join(' ') + '</div>';
+	            else
+	                return mapped.pop();
+	        },
 
-    /**
-     * Given a collection (or a single) of SirTrevorData, the function returns an HTML that contains
-     * the rendered view for each element warped arround a single DOM element.
-     * @param {SirTrevorData | SirTrevorData[]} json - The data to be serialized to HTML.
-     * @returns {String} The HTML representation of each element. Also contains enough data for recover the original JSON afterwards.
-     * @memberof SirTrevorAdapter
-     * @requires lodash
-     */
-    SirTrevorAdapter.prototype.toHTML = function(json) {
-        var wasArray = true;
-        if (!_.isArray(json)) {
-            json = [ json ];
-            wasArray = false;
-        }
+	        /**
+	         * Given an HTML generated by an instance of SirTrevorAdapter, this function returns the original JSON
+	         * used to generate the given HTML.
+	         * @param {String} html - The HTML to be parsed.
+	         * @memberof SirTrevorAdapter
+	         * @returns {SirTrevorData[]} The collection of SirTrevor Data recovered from the HTML.
+	         */
+	        toJSON: function(html) {
+	            var self = this;
+	            var $doms = $(html);
 
-        var container = $('<' + this.config.elementEnclosingTag + '>', { class: this.config.elementClass + '-container' });
-        var mapped = json.map(this.map, this).join('\n');
+	            return $doms.find('.' + this.config.elementClass)
+	            .map(function (i, obj) {
+	                var $obj = $(obj);
 
-        if (wasArray)
-            return '<div class="' + this.config.containerClass + '">' + mapped + '</div>';
-        else
-            return mapped;
-    }
-    SirTrevorAdapter.prototype.fromJSON = SirTrevorAdapter.prototype.toHTML;
+	                // -- Support for 1.0.X Version
+	                var dataSt = $obj.data(self.config.attrName);
+	                if (dataSt)
+	                    return dataSt;
+	                // -- EOF Support
 
-    /**
-     * Given an HTML generated by an instance of SirTrevorAdapter, this function returns the original JSON
-     * used to generate the given HTML.
-     * @param {String} html - The HTML to be parsed.
-     * @memberof SirTrevorAdapter
-     * @returns {SirTrevorData[]} The collection of SirTrevor Data recovered from the HTML.
-     */
-    SirTrevorAdapter.prototype.toJSON = function(html) {
-        var self = this;
-        var doms = $(html);
-        var $doms = $(doms);
-        var result = [];
-        $doms.find('.st-render').each(function (i, obj) {
-            result.push($(obj).data(self.config.attrName));
-        });
-        return result;
-    }
-    SirTrevorAdapter.prototype.fromHTML = SirTrevorAdapter.prototype.toJSON;
+	                var type = $obj.data(self.config.attrType);
+	                if (!type)
+	                    throw Error('No data-' + type + 'tag found on: ' + html);
 
-    // Expose static field
-    SirTrevorAdapter.Defaults = {};
-    SirTrevorAdapter.Defaults.Templates = templates;
+	                var handler = self.getAdapterFor(type);
+	                if (!handler)
+	                    throw Error('No handler for ' + type);
 
-    return SirTrevorAdapter;
-}));
+	                return {
+	                    type: type,
+	                    data: handler.toJSON($obj.html())
+	                };
+	            })
+	            .get();
+	        }
+
+	    }
+	}
+
+	module.exports = SirTrevorAdapter;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	ButtonAdapter = {
+		handles : [
+			'button'
+		],
+
+		toHTML: function(data) {
+			var $div = $('<div>');
+			var $a = $('a').appendTo($div);
+			/*var $clear = */$('<div>', { style: 'clear: both' }).appendTo($div);
+			$a.html(data.text);
+			$a.attr('href', data.href);
+			$a.attr('data-st-user-href', data['user-href']);
+
+			Object.keys(data).forEach(function(e) {
+				if (!/^css\-/.test(e))
+					return;
+				var cssKey = e.replace(/^css-/);
+				var cssVal = data[e];
+				$a.css(cssKey, cssVal);
+			});
+
+
+			$a.find('> *').css('margin', '0');
+
+			return $div.html();
+		},
+		
+		toJSON: function(html) {
+			var $html = $(html);
+			var $a = $html.find('a');
+
+			var data = {};
+			data.format = 'html';
+			data.text = $a.html();
+			data.href = $a.attr('href');
+			data['user-href'] = $a.attr('data-st-user-href');
+			$a.attr('style').split(';').forEach(function (e) {
+				var v = e.split(':');
+				var cssAttr = v[0];
+				var cssVal = v[1];
+				data['css-' + cssAttr] = cssVal;
+			});
+
+			return data;
+		}
+	}
+
+	module.exports = ButtonAdapter;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	ImageAdapter = {
+		handles : [
+			'image',
+			'image_edit'
+		],
+
+		toHTML: function(data) {
+			var file = data.file || '';
+			return '<img src="' + file + '"/>';
+		},
+
+		toJSON: function(html) {
+			var file = '';
+			var rgx = /<img src="(.*)"\/>/;
+			var match = rgx.exec(html);
+			if (match)
+				file = match[0];
+
+			return { file: { url: file } };
+		}
+	}
+
+	module.exports = ImageAdapter;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	ListAdapter = {
+		handles : [
+			'list'
+		],
+
+		toHTML: function(data) {
+			return data.listItems.reduce(function (v, c) {
+				v += '<li>' + c.content + '</li>';
+			}, '<ul>') + '</ul>';
+		},
+		
+		toJSON: function(html) {
+			var rgx = /<li>(.*)<\/li>/;
+			var listItems = [];
+			var match;
+
+			while ((match = rgx.exec(html)) !== null)
+				listItems.push({ content: match[1] });
+
+			return { listItems: listItems };
+		}
+	}
+
+	module.exports = ListAdapter;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	MapAdapter = {
+
+	    handles : [
+	        'map'
+	    ],
+
+	    toHTML: function(data) {
+	        var img_src = _.template("https://maps.googleapis.com/maps/api/staticmap?size=<%= width %>x<%= height %>&center=<%= address %>&markers=|<%= address %>&zoom=<%= zoom %>&scale=2", data);
+	        var map_ref = _.template("http://maps.google.com/maps?q=<%= address %>", data);
+	        var template = '<a href="<%= map_ref %>"><img src="<%= img_src %>" /></a>';
+	        return _.template(template, { img_src: img_src, map_ref: map_ref });
+	    },
+
+	    toJSON: function(html) {
+	        var rgx = /<img src="https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=600x300&center=(.*?)&markers=|.*?&zoom=([0-9]+)&scale=([0-9]+)"/;
+	        var match = rgx.exec(html);
+
+	        if (!match)
+	            return {};
+
+	        return {
+	            address: match[1],
+	            zoom: match[2],
+	            scale: match[3]
+	        };
+	    }
+	}
+
+	module.exports = MapAdapter;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	SpacerAdapter = {
+
+	    handles : [
+	        'spacer'
+	    ],
+
+	    toHTML: function(data) {
+	        return _.template('<div style="margin:<%= height %><%= units %> 0;"></div', data);
+	    },
+
+	    toJSON: function(html) {
+
+	        var rgx = /margin:([0-9]+)(.*);/;
+	        var match = rgx.exec(html);
+
+	        if (!match)
+	            return {};
+
+	        return {
+	            height: match[1],
+	            units: match[2]
+	        };
+	    }
+	}
+
+	module.exports = SpacerAdapter;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	TextAdapter = {
+		handles : [
+			'text',
+			'heading',
+			'ck_editor',
+			'widget'
+		],
+
+		tags : { // Relates the st type with the html tag for serializing/deserializing
+			'heading' : 'h2',
+			'quote': 'quote'
+		},
+
+		toHTML: function(data, type) {
+			if (data.type == 'html') {
+				var content = data.text;
+				var tag = this.tags[type];
+
+				if (tag)
+					content = '<' + tag + '>' + content + '</' + tag + '>';
+
+				return content;
+			} else {
+				console.error('Invalid type ' + data.type + ' for block type ' + type);
+				return '';
+			}
+		},
+		
+		toJSON: function(html, type) {
+			var tag = this.tags[type];
+
+			if (tag)
+				html = html
+						.replace(new RegExp('^<' + tag + '>'), '')
+						.replace(new RegExp('<' + tag + '>$'), '');
+
+			return { text: html, type: 'html' };
+		}
+	}
+
+	module.exports = TextAdapter;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	VideoAdapter = {
+
+	    handles : [
+	        'video'
+	    ],
+
+	    // more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
+	    providers: {    
+	        vimeo: {
+	            regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.*)/,
+	            html: "<iframe src=\"{{protocol}}//player.vimeo.com/video/{{remote_id}}?title=0&byline=0\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
+	        },
+	        youtube: {
+	            regex: /^.(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&\?]).*/,
+	            html: "<iframe src=\"{{protocol}}//www.youtube.com/embed/{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\" allowfullscreen></iframe>"
+	        },
+	        vine: {
+	            regex: /(?:http[s]?:\/\/)?(?:www.)?vine.co\/v\/([^\W]*)/,
+	            html: "<iframe class=\"vine-embed\" src=\"{{protocol}}//vine.co/v/{{remote_id}}/embed/simple\" width=\"{{width}}\" height=\"{{width}}\" frameborder=\"0\"></iframe><script async src=\"http://platform.vine.co/static/scripts/embed.js\" charset=\"utf-8\"></script>",
+	            square: true
+	        },
+	        dailymotion: {
+	            regex: /(?:http[s]?:\/\/)?(?:www.)?dai(?:.ly|lymotion.com\/video)\/([^\W_]*)/,
+	            html: "<iframe src=\"{{protocol}}//www.dailymotion.com/embed/video/{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
+	        }
+	    },
+
+	    toHTML: function(data) {
+
+	        if (!this.providers.hasOwnProperty(data.source))
+	            return "";
+
+	        var source = this.providers[data.source];
+
+	        var protocol = window.location.protocol === "file:" ? 
+	          "http:" : window.location.protocol;
+
+	        return _.template(source.html, {
+	            protocol: protocol,
+	            remote_id: data.remote_id
+	        });
+	    },
+
+	    toJSON: function(html) {
+	        var matchUrl = /<iframe src="(.*?)"/.exec(html);
+
+	        if (!(matchUrl && matchUrl[1]))
+	            return {};
+
+	        var url = matchUrl[1];
+	        var self = this;
+	        return Object.keys(this.providers).reduce(function (result, providerKey) {
+	            if (!_.isEmpty(result))
+	                return result;
+
+	            var provider = self.providers[providerKey];
+	            var match = provider.exec(url);
+
+	            if (match && match[1]) {
+	                return {
+	                    source: providerKey,
+	                    remote_id: match[1]
+	                }
+	            } else
+	                return result;
+	        }, {});
+	    },
+	}
+
+	module.exports = VideoAdapter;
+
+/***/ }
+/******/ ]);
