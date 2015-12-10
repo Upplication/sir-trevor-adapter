@@ -1,13 +1,37 @@
 var gulp = require('gulp'),
-    concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
+    gutil = require("gulp-util"),
     addsrc = require('gulp-add-src'),
-    uglify = require('gulp-uglify'),
     jsdoc = require('gulp-jsdoc'),
     git = require('gulp-git'),
     bump = require('gulp-bump'),
     filter = require('gulp-filter'),
-    tag = require('gulp-tag-version');
+    tag = require('gulp-tag-version'),
+    webpack = require('webpack');
+
+/**
+ * Generates the bundled version of the library,
+ * @param {Boolean} isProd - Defines if building for production or not. If prod output will be minified
+ * @returns {Function} A gulp task function
+ */
+var webpackTask = function(isProd) {
+    return function (cb) {
+        webpack(
+            {
+                entry: './src/index.js',
+                output: {
+                    library: "SirTrevorAdapter",
+                    filename: 'sir-trevor-adapter' + (isProd ? '.min.js' : '.js')
+                },
+                plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : [],
+            },
+            function (err, stats) {
+                if(err) throw new gutil.PluginError("webpack", err);
+                gutil.log("[webpack]", stats.toString());
+                cb();
+            }
+        );  
+    }  
+}
 
 /**
  * Bumping version number and tagging the repository with it.
@@ -33,6 +57,10 @@ var inc = function(importance) {
         .pipe(tag({ prefix: '' }))                 // **tag it in the repository**
 }
 
+gulp.task('compile-dev', webpackTask(false));
+gulp.task('compile-prod', webpackTask(true));
+gulp.task('compile', [ 'compile-dev', 'compile-prod' ]);
+
 gulp.task('tag-patch', function() { return inc('patch'); });
 gulp.task('tag-feature', function() { return inc('minor'); });
 gulp.task('tag-release', function() { return inc('major'); });
@@ -40,15 +68,6 @@ gulp.task('tag-release', function() { return inc('major'); });
 gulp.task('patch', ['compile', 'tag-patch'])
 gulp.task('feature', ['compile', 'tag-feature'])
 gulp.task('release', ['compile', 'tag-release'])
-
-gulp.task('compile', function () {
-    gulp.src('./src/*.js')
-        .pipe(concat("sir-trevor-adapter.js"))
-        .pipe(gulp.dest("."))
-        .pipe(rename('sir-trevor-adapter.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest("."))
-});
 
 gulp.task('doc', function() {
     gulp.src("./src/*.js")
