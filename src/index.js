@@ -16,7 +16,7 @@ var defaultConfig = {
     attrType: 'st-type'
 }
 
-SirTrevorAdapter = function(userConfig, adapters) {
+var SirTrevorAdapter = function(userConfig, adapters) {
 
     return {
         config: Object.assign({}, defaultConfig, userConfig || {}),
@@ -38,7 +38,7 @@ SirTrevorAdapter = function(userConfig, adapters) {
          * @memberof SirTrevorAdapter
          */
         isSirTrevorData: function(obj) {
-            return obj && obj.type && obj.data && _.isObject(obj.data);
+            return !!(obj && obj.type && obj.data && _.isObject(obj.data) && _.isString(obj.type));
         },
 
         /**
@@ -48,6 +48,10 @@ SirTrevorAdapter = function(userConfig, adapters) {
          * @returns {SirTrevorTypeAdapter} The adapter that can handle the given type (or null)
          */
         getAdapterFor: function(data) {
+
+            if (!data)
+                return null;
+
             var type = data.type || data;
             return this.adapters.reduce(function(adapter, current) {
                 if (adapter)
@@ -89,6 +93,7 @@ SirTrevorAdapter = function(userConfig, adapters) {
 
                 // -- No errors so far, start building the container
 
+                var dummyDiv = $('<div>');
                 var container = $('<' + self.config.elementEnclosingTag + '>');
 
                 container.addClass(self.config.elementClass);
@@ -98,7 +103,8 @@ SirTrevorAdapter = function(userConfig, adapters) {
                 container.html(handler.toHTML(dataInstance.data, dataInstance.type));
                 container.attr('data-' + self.config.attrType, dataInstance.type);
 
-                return container[0].outerHTML;
+                dummyDiv.append(container);
+                return dummyDiv.html();
             };
 
             var mapped = data.map(mapper);
@@ -148,5 +154,13 @@ SirTrevorAdapter = function(userConfig, adapters) {
 
     }
 }
+
+SirTrevorAdapter.ButtonAdapter = require('./types/button.js');
+SirTrevorAdapter.ImageAdapter = require('./types/image.js');
+SirTrevorAdapter.ListAdapter = require('./types/list.js');
+SirTrevorAdapter.MapAdapter = require('./types/map.js');
+SirTrevorAdapter.SpacerAdapter = require('./types/spacer.js');
+SirTrevorAdapter.TextAdapter = require('./types/text.js');
+SirTrevorAdapter.VideoAdapter = require('./types/video.js');
 
 module.exports = SirTrevorAdapter;
