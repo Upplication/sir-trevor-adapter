@@ -13,7 +13,7 @@ ImageAdapter = {
 
 	toJSON: function(html) {
 		var file = '';
-		var rgx = /<img src="(.*)"\/>/;
+		var rgx = /<img src="(.*)"\/?>/;
 		var match = rgx.exec(html);
 		if (match)
 			file = match[0];
