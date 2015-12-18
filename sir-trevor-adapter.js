@@ -63,7 +63,7 @@ var SirTrevorAdapter =
 	    attrType: 'st-type'
 	}
 
-	SirTrevorAdapter = function(userConfig, adapters) {
+	var SirTrevorAdapter = function(userConfig, adapters) {
 
 	    return {
 	        config: Object.assign({}, defaultConfig, userConfig || {}),
@@ -85,7 +85,7 @@ var SirTrevorAdapter =
 	         * @memberof SirTrevorAdapter
 	         */
 	        isSirTrevorData: function(obj) {
-	            return obj && obj.type && obj.data && _.isObject(obj.data);
+	            return !!(obj && obj.type && obj.data && _.isObject(obj.data) && _.isString(obj.type));
 	        },
 
 	        /**
@@ -95,6 +95,10 @@ var SirTrevorAdapter =
 	         * @returns {SirTrevorTypeAdapter} The adapter that can handle the given type (or null)
 	         */
 	        getAdapterFor: function(data) {
+
+	            if (!data)
+	                return null;
+
 	            var type = data.type || data;
 	            return this.adapters.reduce(function(adapter, current) {
 	                if (adapter)
@@ -136,6 +140,7 @@ var SirTrevorAdapter =
 
 	                // -- No errors so far, start building the container
 
+	                var dummyDiv = $('<div>');
 	                var container = $('<' + self.config.elementEnclosingTag + '>');
 
 	                container.addClass(self.config.elementClass);
@@ -145,7 +150,8 @@ var SirTrevorAdapter =
 	                container.html(handler.toHTML(dataInstance.data, dataInstance.type));
 	                container.attr('data-' + self.config.attrType, dataInstance.type);
 
-	                return container[0].outerHTML;
+	                dummyDiv.append(container);
+	                return dummyDiv.html();
 	            };
 
 	            var mapped = data.map(mapper);
@@ -196,6 +202,14 @@ var SirTrevorAdapter =
 	    }
 	}
 
+	SirTrevorAdapter.ButtonAdapter = __webpack_require__(1);
+	SirTrevorAdapter.ImageAdapter = __webpack_require__(2);
+	SirTrevorAdapter.ListAdapter = __webpack_require__(3);
+	SirTrevorAdapter.MapAdapter = __webpack_require__(4);
+	SirTrevorAdapter.SpacerAdapter = __webpack_require__(5);
+	SirTrevorAdapter.TextAdapter = __webpack_require__(6);
+	SirTrevorAdapter.VideoAdapter = __webpack_require__(7);
+
 	module.exports = SirTrevorAdapter;
 
 /***/ },
@@ -203,6 +217,8 @@ var SirTrevorAdapter =
 /***/ function(module, exports) {
 
 	ButtonAdapter = {
+		name: 'ButtonAdapter',
+
 		handles : [
 			'button'
 		],
@@ -256,6 +272,8 @@ var SirTrevorAdapter =
 /***/ function(module, exports) {
 
 	ImageAdapter = {
+		name: 'ImageAdapter',
+
 		handles : [
 			'image',
 			'image_edit'
@@ -268,7 +286,7 @@ var SirTrevorAdapter =
 
 		toJSON: function(html) {
 			var file = '';
-			var rgx = /<img src="(.*)"\/>/;
+			var rgx = /<img src="(.*)"\/?>/;
 			var match = rgx.exec(html);
 			if (match)
 				file = match[0];
@@ -284,6 +302,8 @@ var SirTrevorAdapter =
 /***/ function(module, exports) {
 
 	ListAdapter = {
+		name: 'ListAdapter',
+
 		handles : [
 			'list'
 		],
@@ -313,6 +333,7 @@ var SirTrevorAdapter =
 /***/ function(module, exports) {
 
 	MapAdapter = {
+	    name: 'MapAdapter',
 
 	    handles : [
 	        'map'
@@ -347,6 +368,7 @@ var SirTrevorAdapter =
 /***/ function(module, exports) {
 
 	SpacerAdapter = {
+	    name: 'SpacerAdapter',
 
 	    handles : [
 	        'spacer'
@@ -378,10 +400,13 @@ var SirTrevorAdapter =
 /***/ function(module, exports) {
 
 	TextAdapter = {
+		name: 'TextAdapter',
+
 		handles : [
 			'text',
 			'heading',
 			'ck_editor',
+			'quote',
 			'widget'
 		],
 
@@ -424,6 +449,7 @@ var SirTrevorAdapter =
 /***/ function(module, exports) {
 
 	VideoAdapter = {
+	    name: 'VideoAdapter',
 
 	    handles : [
 	        'video'
