@@ -1,8 +1,11 @@
 TextAdapter = {
+	name: 'TextAdapter',
+
 	handles : [
 		'text',
 		'heading',
 		'ck_editor',
+		'quote',
 		'widget'
 	],
 

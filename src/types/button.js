@@ -1,4 +1,6 @@
 ButtonAdapter = {
+	name: 'ButtonAdapter',
+
 	handles : [
 		'button'
 	],

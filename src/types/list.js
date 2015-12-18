@@ -1,4 +1,6 @@
 ListAdapter = {
+	name: 'ListAdapter',
+
 	handles : [
 		'list'
 	],

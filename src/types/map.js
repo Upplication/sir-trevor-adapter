@@ -1,4 +1,5 @@
 MapAdapter = {
+    name: 'MapAdapter',
 
     handles : [
         'map'

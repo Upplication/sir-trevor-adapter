@@ -1,4 +1,5 @@
 SpacerAdapter = {
+    name: 'SpacerAdapter',
 
     handles : [
         'spacer'

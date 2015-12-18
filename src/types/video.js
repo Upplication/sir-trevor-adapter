@@ -1,4 +1,5 @@
 VideoAdapter = {
+    name: 'VideoAdapter',
 
     handles : [
         'video'

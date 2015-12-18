@@ -1,4 +1,6 @@
 ImageAdapter = {
+	name: 'ImageAdapter',
+
 	handles : [
 		'image',
 		'image_edit'
