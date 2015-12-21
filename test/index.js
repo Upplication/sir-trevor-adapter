@@ -154,3 +154,5 @@ describe('SirTrevorAdapter', function() {
 		})
 	})
 })
+
+require('./types/text.js');
