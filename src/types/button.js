@@ -7,7 +7,7 @@ ButtonAdapter = {
 
 	toHTML: function(data) {
 		var $div = $('<div>');
-		var $a = $('a').appendTo($div);
+		var $a = $('<a>').appendTo($div);
 		/*var $clear = */$('<div>', { style: 'clear: both' }).appendTo($div);
 		$a.html(data.text);
 		$a.attr('href', data.href);
@@ -16,12 +16,18 @@ ButtonAdapter = {
 		Object.keys(data).forEach(function(e) {
 			if (!/^css\-/.test(e))
 				return;
-			var cssKey = e.replace(/^css-/);
+			var cssKey = e.replace(/^css-/, '');
 			var cssVal = data[e];
 			$a.css(cssKey, cssVal);
 		});
 
-
+		$a.css('overflow', 'hidden');
+		$a.css('display', 'block');
+		$a.css('line-height', 'normal');
+		$a.css('box-sizing', 'border-box');
+		$a.css('border-style', 'solid');
+		$a.css('text-align', 'center');
+		$a.css('margin', '0 auto');
 		$a.find('> *').css('margin', '0');
 
 		return $div.html();
