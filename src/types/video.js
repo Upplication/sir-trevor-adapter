@@ -55,7 +55,7 @@ VideoAdapter = {
                 return result;
 
             var provider = self.providers[providerKey];
-            var match = provider.exec(url);
+            var match = provider.regex.exec(url);
 
             if (match && match[1]) {
                 return {
