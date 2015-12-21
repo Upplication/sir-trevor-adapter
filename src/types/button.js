@@ -18,7 +18,7 @@ ButtonAdapter = {
 				return;
 			var cssKey = e.replace(/^css-/, '');
 			var cssVal = data[e];
-			$a.attr('style', $a.attr('style') + cssKey + ':' + cssAttr + ';');
+			$a.attr('style', $a.attr('style') + cssKey + ':' + cssVal + ';');
 			$a.css(cssKey, cssVal);
 		});
 
