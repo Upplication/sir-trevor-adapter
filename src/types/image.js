@@ -7,7 +7,10 @@ ImageAdapter = {
 	],
 
 	toHTML: function(data) {
-		var file = data.file || '';
+		if (!data || !data.file)
+			return  '';
+
+		var file = data.file.url || '';
 		return '<img src="' + file + '"/>';
 	},
 
@@ -16,7 +19,7 @@ ImageAdapter = {
 		var rgx = /<img src="(.*)"\/?>/;
 		var match = rgx.exec(html);
 		if (match)
-			file = match[0];
+			file = match[1];
 
 		return { file: { url: file } };
 	}
