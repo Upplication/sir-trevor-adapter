@@ -18,6 +18,7 @@ ButtonAdapter = {
 				return;
 			var cssKey = e.replace(/^css-/, '');
 			var cssVal = data[e];
+			$a.attr('style', $a.attr('style') + cssKey + ':' + cssAttr + ';');
 			$a.css(cssKey, cssVal);
 		});
 
@@ -34,8 +35,7 @@ ButtonAdapter = {
 	},
 	
 	toJSON: function(html) {
-		var $html = $(html);
-		var $a = $html.find('a');
+		var $a = $(html);
 
 		var data = {};
 		data.format = 'html';
@@ -43,7 +43,7 @@ ButtonAdapter = {
 		data.href = $a.attr('href');
 		data['user-href'] = $a.attr('data-st-user-href');
 		$a.attr('style').split(';').forEach(function (e) {
-			var v = e.split(':');
+			var v = e.replace(/\s/g, '').split(':');
 			var cssAttr = v[0];
 			var cssVal = v[1];
 			data['css-' + cssAttr] = cssVal;

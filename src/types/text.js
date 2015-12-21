@@ -15,7 +15,7 @@ TextAdapter = {
 	},
 
 	toHTML: function(data, type) {
-		if (data.type == 'html') {
+		if (data.format == 'html') {
 			var content = data.text;
 			var tag = this.tags[type];
 
@@ -24,7 +24,7 @@ TextAdapter = {
 
 			return content;
 		} else {
-			console.error('Invalid type ' + data.type + ' for block type ' + type);
+			console.error('Invalid type ' + data.format + ' for block type ' + type);
 			return '';
 		}
 	},
