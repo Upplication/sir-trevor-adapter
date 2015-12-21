@@ -1,5 +1,7 @@
 var assert = require('assert');
 var should = require('should');
+var auto = require('./automated');
+var testCases = require('./data');
 
 describe('SirTrevorAdapter', function() {
 	describe('#isSirTrevorData()', function() {
@@ -69,56 +71,6 @@ describe('SirTrevorAdapter', function() {
 		})
 	})
 
-	var testCases = [
-		{
-			type: 'text',
-			json: {
-				text: '<p>Sample <i>text</i></p>',
-				type: 'html'
-			},
-			html: '<p>Sample <i>text</i></p>'
-		},
-		{
-			type: 'widget',
-			json: {
-				text: '<p>Sample <i>text</i></p>',
-				type: 'html'
-			},
-			html: '<p>Sample <i>text</i></p>'
-		},
-		{
-			type: 'ck_editor',
-			json: {
-				text: '<p>Sample <i>text</i></p>',
-				type: 'html'
-			},
-			html: '<p>Sample <i>text</i></p>'
-		},
-		{
-			type: 'heading',
-			json: {
-				text: '<p>Sample <i>text</i></p>',
-				type: 'html'
-			},
-			html: '<h2><p>Sample <i>text</i></p></h2>'
-		},
-		{
-			type: 'quote',
-			json: {
-				text: '<p>Sample <i>text</i></p>',
-				type: 'html'
-			},
-			html: '<quote><p>Sample <i>text</i></p></quote>'
-		},
-		{
-			type: 'image',
-			json: {
-				file: 'https://example.com/some/random/path/some-random-image.png'
-			},
-			html: '<img src="https://example.com/some/random/path/some-random-image.png">'
-		}
-	];
-
 	describe('#toHTML()', function() {
 		context('when applied to single element', function() {
 			it('should throw exception if a not valid SirTrevorData', function() {
@@ -134,25 +86,19 @@ describe('SirTrevorAdapter', function() {
 			})
 			it('should be wrapped arround instance configuration parameters', function() {
 				testCases.forEach(function (testCase) {
-					var html = sta.toHTML({ type: testCase.type, data: testCase.json });
+					var html = sta.toHTML({ type: testCase.type, data: testCase.data });
 					var $elem = $(html);
 					assert($elem.is(sta.config.elementEnclosingTag), 'element is not wrapped arroud the elementEnclosingTag: ' + sta.config.elementEnclosingTag);
 					assert($elem.is('[data-' + sta.config.attrType + ']'), 'element does not have type attribute attrType: ' + sta.config.attrType);
 					if (sta.config.addElementTypeClass)
 						assert($elem.is('.' + sta.config.elementClass), 'element is not wrapped arroud the elementEnclosingTag');
+					should($elem.data(sta.config.attrType)).be.equal(testCase.type);
 
 				})	
-			})
-			// TODO: Move this to individual adapter test benchs!
-			testCases.forEach(function (testCase) {
-				it('should be element\'s associated HTML code for type ' + testCase.type, function() {
-					var html = sta.toHTML({ type: testCase.type, data: testCase.json });
-					var $elem = $(html);
-					$elem.html().should.equal(testCase.html);
-				})
 			})
 		})
 	})
 })
 
-require('./types/text.js');
+auto('text');
+auto('image');
