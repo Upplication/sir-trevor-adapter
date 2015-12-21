@@ -280,7 +280,10 @@ var SirTrevorAdapter =
 		],
 
 		toHTML: function(data) {
-			var file = data.file || '';
+			if (!data || !data.file)
+				return  '';
+
+			var file = data.file.url || '';
 			return '<img src="' + file + '"/>';
 		},
 
@@ -289,7 +292,7 @@ var SirTrevorAdapter =
 			var rgx = /<img src="(.*)"\/?>/;
 			var match = rgx.exec(html);
 			if (match)
-				file = match[0];
+				file = match[1];
 
 			return { file: { url: file } };
 		}
@@ -436,7 +439,7 @@ var SirTrevorAdapter =
 			if (tag)
 				html = html
 						.replace(new RegExp('^<' + tag + '>'), '')
-						.replace(new RegExp('<' + tag + '>$'), '');
+						.replace(new RegExp('</' + tag + '>$'), '');
 
 			return { text: html, type: 'html' };
 		}
