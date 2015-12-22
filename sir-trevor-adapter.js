@@ -353,7 +353,7 @@ var SirTrevorAdapter =
 	    },
 
 	    toJSON: function(html) {
-	        var rgx = /<img src="https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=600x300&center=(.*?)&markers=|.*?&zoom=([0-9]+)&scale=([0-9]+)"/;
+	        var rgx = /center=(.*?)&.*zoom=([0-9]+)&.*scale=([0-9]+)/;
 	        var match = rgx.exec(html);
 
 	        if (!match)
