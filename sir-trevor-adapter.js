@@ -386,15 +386,15 @@ var SirTrevorAdapter =
 
 	    toJSON: function(html) {
 
-	        var rgx = /margin:([0-9]+\.)(.*)0;/;
+	        var rgx = /margin:\s*([0-9\.]+)([a-z%]+)\s*0/;
 	        var match = rgx.exec(html);
 
 	        if (!match)
 	            return {};
 
 	        return {
-	            height: match[1],
-	            units: match[2]
+	            height: Number(match[1].trim()),
+	            units: match[2].trim()
 	        };
 	    }
 	}
