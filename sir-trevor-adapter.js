@@ -386,7 +386,7 @@ var SirTrevorAdapter =
 
 	    toJSON: function(html) {
 
-	        var rgx = /margin:([0-9]+)(.*);/;
+	        var rgx = /margin:([0-9]+\.)(.*)0;/;
 	        var match = rgx.exec(html);
 
 	        if (!match)
@@ -444,7 +444,7 @@ var SirTrevorAdapter =
 						.replace(new RegExp('^<' + tag + '>'), '')
 						.replace(new RegExp('</' + tag + '>$'), '');
 
-			return { text: html, type: 'html' };
+			return { text: html, format: 'html' };
 		}
 	}
 
