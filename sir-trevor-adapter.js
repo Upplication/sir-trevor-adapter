@@ -230,6 +230,9 @@ var SirTrevorAdapter =
 			$a.html(data.text);
 			$a.attr('href', data.href);
 			$a.attr('data-st-user-href', data['user-href']);
+			// we dont use $a.css('style') because css method use computed style and could change all the style attr of the elem.
+			$a.attr('style', 'overflow: hidden; display: block; line-height: normal; box-sizing: border-box; border-style: solid; text-align: center; margin: 0 auto;');
+			$a.find('> *').css('margin', '0');
 
 			Object.keys(data).forEach(function(e) {
 				if (!/^css\-/.test(e))
@@ -237,21 +240,11 @@ var SirTrevorAdapter =
 				var cssKey = e.replace(/^css-/, '');
 				var cssVal = data[e];
 				$a.attr('style', $a.attr('style') + cssKey + ':' + cssVal + ';');
-				$a.css(cssKey, cssVal);
 			});
-
-			$a.css('overflow', 'hidden');
-			$a.css('display', 'block');
-			$a.css('line-height', 'normal');
-			$a.css('box-sizing', 'border-box');
-			$a.css('border-style', 'solid');
-			$a.css('text-align', 'center');
-			$a.css('margin', '0 auto');
-			$a.find('> *').css('margin', '0');
 
 			return $div.html();
 		},
-		
+
 		toJSON: function(html) {
 			var $a = $(html);
 
@@ -260,12 +253,16 @@ var SirTrevorAdapter =
 			data.text = $a.html();
 			data.href = $a.attr('href');
 			data['user-href'] = $a.attr('data-st-user-href');
-			$a.attr('style').split(';').forEach(function (e) {
-				var v = e.replace(/\s/g, '').split(':');
-				var cssAttr = v[0];
-				var cssVal = v[1];
-				data['css-' + cssAttr] = cssVal;
-			});
+			$a.attr('style').split(';')
+				.filter(function(elem) {
+					return elem.indexOf(':') != -1
+				})
+				.forEach(function (e) {
+					var v = e.split(':');
+					var cssAttr = v[0].replace(/\s/g, '');
+					var cssVal = v[1].trim();
+					data['css-' + cssAttr] = cssVal;
+				});
 
 			return data;
 		}
@@ -465,13 +462,13 @@ var SirTrevorAdapter =
 	    ],
 
 	    // more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
-	    providers: {    
+	    providers: {
 	        vimeo: {
-	            regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.*)/,
+	            regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo\.co(?:.+(?:\/)([^\/].*)+$)/,
 	            html: "<iframe src=\"<%= protocol %>//player.vimeo.com/video/<%= remote_id %>?title=0&byline=0\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
 	        },
 	        youtube: {
-	            regex: /^.(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&\?]).*/,
+	            regex: /^.*(?:(?:youtu\.be\/)|(?:youtube\.com)\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*)/,
 	            html: "<iframe src=\"<%= protocol %>//www.youtube.com/embed/<%= remote_id %>\" width=\"580\" height=\"320\" frameborder=\"0\" allowfullscreen></iframe>"
 	        },
 	        vine: {
