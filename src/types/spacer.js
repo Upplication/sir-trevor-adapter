@@ -11,7 +11,7 @@ SpacerAdapter = {
 
     toJSON: function(html) {
 
-        var rgx = /margin:([0-9]+)(.*);/;
+        var rgx = /margin:([0-9]+\.)(.*)0;/;
         var match = rgx.exec(html);
 
         if (!match)

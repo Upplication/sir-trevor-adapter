@@ -37,7 +37,7 @@ TextAdapter = {
 					.replace(new RegExp('^<' + tag + '>'), '')
 					.replace(new RegExp('</' + tag + '>$'), '');
 
-		return { text: html, type: 'html' };
+		return { text: html, format: 'html' };
 	}
 }
 
