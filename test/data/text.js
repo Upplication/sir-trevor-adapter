@@ -4,7 +4,7 @@ module.exports = [
 		type: 'text',
 		data: {
 			text: '<p>Sample <i>text</i></p>',
-			type: 'html'
+			format: 'html'
 		},
 		html: '<p>Sample <i>text</i></p>'
 	},
@@ -12,7 +12,7 @@ module.exports = [
 		type: 'widget',
 		data: {
 			text: '<p>Sample <i>text</i></p>',
-			type: 'html'
+			format: 'html'
 		},
 		html: '<p>Sample <i>text</i></p>'
 	},
@@ -20,7 +20,7 @@ module.exports = [
 		type: 'ck_editor',
 		data: {
 			text: '<p>Sample <i>text</i></p>',
-			type: 'html'
+			format: 'html'
 		},
 		html: '<p>Sample <i>text</i></p>'
 	},
@@ -28,7 +28,7 @@ module.exports = [
 		type: 'heading',
 		data: {
 			text: '<p>Sample <i>text</i></p>',
-			type: 'html'
+			format: 'html'
 		},
 		html: '<h2><p>Sample <i>text</i></p></h2>'
 	},
@@ -36,7 +36,7 @@ module.exports = [
 		type: 'quote',
 		data: {
 			text: '<p>Sample <i>text</i></p>',
-			type: 'html'
+			format: 'html'
 		},
 		html: '<quote><p>Sample <i>text</i></p></quote>'
 	}

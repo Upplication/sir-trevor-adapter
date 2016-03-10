@@ -9,7 +9,7 @@ module.exports = function(type) {
 	explore = function(html, data, adapterName) {
 		Object.keys(data).forEach(function (key){
 			// Exception treatment, ignored keys check
-			if (adapterName == 'TextAdapter' && key =='type')
+			if (adapterName == 'TextAdapter' && key =='format')
 				return;
 
 			var val = data[key];
