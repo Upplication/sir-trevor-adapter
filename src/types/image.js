@@ -11,17 +11,33 @@ ImageAdapter = {
 			return  '';
 
 		var file = data.file.url || '';
-		return '<img src="' + file + '"/>';
+		var href = data.href;
+
+		var result = '<img src="' + file + '"/>';
+
+		if (href && href.length > 0)
+			return '<a href="' + href + '">' + result + '</a>';
+
+		return result;
 	},
 
 	toJSON: function(html) {
 		var file = '';
-		var rgx = /<img src="(.*)"\/?>/;
-		var match = rgx.exec(html);
-		if (match)
-			file = match[1];
+		var rgxImg = /<img src="(.*?)"\/?>/;
+		var matchImg = rgxImg.exec(html);
+		if (matchImg)
+			file = matchImg[1];
 
-		return { file: { url: file } };
+		var href = null;
+		var rgxHref = /<a href="(.*?)">/;
+		var matchHref = rgxHref.exec(html);
+		if (matchHref)
+			href = matchHref[1];
+
+		return { 
+			href: href,
+			file: { url: file }
+		};
 	}
 }
 
