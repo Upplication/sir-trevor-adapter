@@ -10,7 +10,8 @@ ButtonAdapter = {
 		var $a = $('<a>').appendTo($div);
 		/*var $clear = */$('<div>', { style: 'clear: both' }).appendTo($div);
 		$a.html(data.text);
-		$a.attr('href', data.href);
+		if (data.href && data.href.length > 0)
+			$a.attr('href', data.href);
 		$a.attr('data-st-user-href', data['user-href']);
 		// we dont use $a.css('style') because css method use computed style and could change all the style attr of the elem.
 		$a.attr('style', 'overflow: hidden; display: block; line-height: normal; box-sizing: border-box; border-style: solid; text-align: center; margin: 0 auto;');
