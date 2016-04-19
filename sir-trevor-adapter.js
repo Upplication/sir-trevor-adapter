@@ -65,7 +65,7 @@ var SirTrevorAdapter =
 
 	var SirTrevorAdapter = function(userConfig, adapters) {
 
-	    return {
+	    var adapter = {
 	        config: Object.assign({}, defaultConfig, userConfig || {}),
 	        adapters: adapters || [
 	            __webpack_require__(1),
@@ -75,7 +75,21 @@ var SirTrevorAdapter =
 	            __webpack_require__(5),
 	            __webpack_require__(6),
 	            __webpack_require__(7),
+	            __webpack_require__(8),
 	        ],
+
+	        /**
+	         * @private
+	         * Initializes the adapter and its associated type adapters.
+	         */
+	        initialize: function() {
+	            var self = this;
+	            this.adapters.forEach(function(typeAdapter) {
+	                if (typeAdapter.initialize instanceof Function)
+	                    typeAdapter.initialize(self);
+	            })
+	            return self;
+	        },
 
 	        /**
 	         * @private
@@ -185,7 +199,7 @@ var SirTrevorAdapter =
 
 	                var type = $obj.data(self.config.attrType);
 	                if (!type)
-	                    throw Error('No data-' + type + 'tag found on: ' + html);
+	                    throw Error('No data-' + self.config.attrType + ' tag found on: ' + html);
 
 	                var handler = self.getAdapterFor(type);
 	                if (!handler)
@@ -193,22 +207,25 @@ var SirTrevorAdapter =
 
 	                return {
 	                    type: type,
-	                    data: handler.toJSON($obj.html())
+	                    data: handler.toJSON($obj.html(), type)
 	                };
 	            })
 	            .get();
 	        }
 
 	    }
+
+	    return adapter.initialize();
 	}
 
 	SirTrevorAdapter.ButtonAdapter = __webpack_require__(1);
-	SirTrevorAdapter.ImageAdapter = __webpack_require__(2);
-	SirTrevorAdapter.ListAdapter = __webpack_require__(3);
-	SirTrevorAdapter.MapAdapter = __webpack_require__(4);
-	SirTrevorAdapter.SpacerAdapter = __webpack_require__(5);
-	SirTrevorAdapter.TextAdapter = __webpack_require__(6);
-	SirTrevorAdapter.VideoAdapter = __webpack_require__(7);
+	SirTrevorAdapter.ImageAdapter = __webpack_require__(3);
+	SirTrevorAdapter.ListAdapter = __webpack_require__(4);
+	SirTrevorAdapter.MapAdapter = __webpack_require__(5);
+	SirTrevorAdapter.SpacerAdapter = __webpack_require__(6);
+	SirTrevorAdapter.TextAdapter = __webpack_require__(7);
+	SirTrevorAdapter.VideoAdapter = __webpack_require__(8);
+	SirTrevorAdapter.ColumnsAdapter = __webpack_require__(2);
 
 	module.exports = SirTrevorAdapter;
 
@@ -273,6 +290,78 @@ var SirTrevorAdapter =
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	ColumnsAdapter = {
+	    name: 'ColumnsAdapter',
+
+	    handles : [
+	        'columns'
+	    ],
+
+	    _getAdapter: function() {
+	        if (!this._adapter) {
+	            var SirTrevorAdapter = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../index\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	            this._adapter = SirTrevorAdapter({
+	                elementClass : 'st-row',
+	                containerClass: 'st-column'
+	            })
+	        }
+	        
+	        return this._adapter;
+	    },
+
+	    toHTML: function(data) {
+	        var adapter = this._getAdapter();
+	        var $container = $('<div>');
+
+	        data.columns.map(function(column) {
+	            var columnHtml = adapter.toHTML(column.blocks);
+	            var $column = $(columnHtml);
+	            $column.attr('data-' + adapter.config.containerClass + '-width', column.width);
+	            $container.append($column);
+	        });
+
+	        return $container.html();
+	    },
+
+	    toJSON: function(html) {
+	        var adapter = this._getAdapter();
+	        var $container = $('<div>' + html + '</div>');
+	        var result = {
+	            columns: [],
+	            preset: 'columns-'
+	        };
+
+	        $container.find('.' + adapter.config.containerClass)
+	        .each(function(i, column) {
+
+	            var $container = $('<div>');
+	            var $column = $(column);
+	            $container.append($column)
+
+	            var stColumn = {
+	                blocks: adapter.toJSON($container.html()),
+	                width: $column.data(adapter.config.containerClass + '-width')
+	            };
+
+	            result.columns.push(stColumn);
+	        });
+
+	        result.preset += result.columns
+	        .map(function(column) {
+	            return column.width;
+	        })
+	        .join('-');
+
+	        return result;
+	    }
+	}
+
+	module.exports = ColumnsAdapter;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	ImageAdapter = {
@@ -321,7 +410,7 @@ var SirTrevorAdapter =
 	module.exports = ImageAdapter;
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	ListAdapter = {
@@ -352,7 +441,7 @@ var SirTrevorAdapter =
 	module.exports = ListAdapter;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	MapAdapter = {
@@ -387,7 +476,7 @@ var SirTrevorAdapter =
 	module.exports = MapAdapter;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	SpacerAdapter = {
@@ -419,7 +508,7 @@ var SirTrevorAdapter =
 	module.exports = SpacerAdapter;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	TextAdapter = {
@@ -468,7 +557,7 @@ var SirTrevorAdapter =
 	module.exports = TextAdapter;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	VideoAdapter = {
