@@ -5,16 +5,34 @@ module.exports = function(type) {
 	var testCases = require('./data/' + type);
 	var adapter = require('../src/types/' + type);
 
+	var ignoredChecks = [
+		{
+			adapter: 'TextAdapter',
+			key: 'format'
+		},
+		{
+			adapter: 'ColumnsAdapter',
+			key: 'preset'
+		}
+	]
+
 	/* Checks if every data final attribute is contained somehow in the html */
 	explore = function(html, data, adapterName) {
 		Object.keys(data).forEach(function (key){
 			// Exception treatment, ignored keys check
-			if (adapterName == 'TextAdapter' && key =='format')
-				return;
+			for (var i = 0; i < ignoredChecks.length; i++) {
+				var ignoredCheck = ignoredChecks[i];
+				if (ignoredCheck.adapter == adapterName && ignoredCheck.key == key)
+					return;
+				if (adapterName == 'ColumnsAdapter' && ignoredCheck.key == key)
+					return;
+			}
 
 			var val = data[key];
 			if (_.isObject(val))
-				explore(html, val);
+				explore(html, val, adapterName);
+			else if (_.isArray(val))
+				val.forEach(function(elem) { explore(html, elem, adapterName) })
 			else if (val != undefined && val != null)
 				should(html).containEql(String(val));
 

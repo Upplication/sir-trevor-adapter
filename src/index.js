@@ -18,10 +18,11 @@ var defaultConfig = {
 
 var SirTrevorAdapter = function(userConfig, adapters) {
 
-    return {
+    var adapter = {
         config: Object.assign({}, defaultConfig, userConfig || {}),
         adapters: adapters || [
             require('./types/button.js'),
+            require('./types/columns.js'),
             require('./types/image.js'),
             require('./types/list.js'),
             require('./types/map.js'),
@@ -29,6 +30,19 @@ var SirTrevorAdapter = function(userConfig, adapters) {
             require('./types/text.js'),
             require('./types/video.js'),
         ],
+
+        /**
+         * @private
+         * Initializes the adapter and its associated type adapters.
+         */
+        initialize: function() {
+            var self = this;
+            this.adapters.forEach(function(typeAdapter) {
+                if (typeAdapter.initialize instanceof Function)
+                    typeAdapter.initialize(self);
+            })
+            return self;
+        },
 
         /**
          * @private
@@ -138,7 +152,7 @@ var SirTrevorAdapter = function(userConfig, adapters) {
 
                 var type = $obj.data(self.config.attrType);
                 if (!type)
-                    throw Error('No data-' + type + 'tag found on: ' + html);
+                    throw Error('No data-' + self.config.attrType + ' tag found on: ' + html);
 
                 var handler = self.getAdapterFor(type);
                 if (!handler)
@@ -146,13 +160,15 @@ var SirTrevorAdapter = function(userConfig, adapters) {
 
                 return {
                     type: type,
-                    data: handler.toJSON($obj.html())
+                    data: handler.toJSON($obj.html(), type)
                 };
             })
             .get();
         }
 
     }
+
+    return adapter.initialize();
 }
 
 SirTrevorAdapter.ButtonAdapter = require('./types/button.js');
@@ -162,5 +178,6 @@ SirTrevorAdapter.MapAdapter = require('./types/map.js');
 SirTrevorAdapter.SpacerAdapter = require('./types/spacer.js');
 SirTrevorAdapter.TextAdapter = require('./types/text.js');
 SirTrevorAdapter.VideoAdapter = require('./types/video.js');
+SirTrevorAdapter.ColumnsAdapter = require('./types/columns.js');
 
 module.exports = SirTrevorAdapter;
