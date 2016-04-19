@@ -1,3 +1,5 @@
+var SirTrevorAdapter = require('../adapter.js');
+
 ColumnsAdapter = {
     name: 'ColumnsAdapter',
 
@@ -7,7 +9,6 @@ ColumnsAdapter = {
 
     _getAdapter: function() {
         if (!this._adapter) {
-            var SirTrevorAdapter = require('../index');
             this._adapter = SirTrevorAdapter({
                 elementClass : 'st-row',
                 containerClass: 'st-column'
