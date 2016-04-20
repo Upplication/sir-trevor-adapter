@@ -13,26 +13,23 @@ module.exports = [
     {
         type: 'columns',
         data: {
-            preset: 'columns-6-6',
             columns: [
                 {
-                    width: 6,
                     blocks: blocks.map(pick)
                 },
                 {
-                    width: 6,
                     blocks: blocksReversed.map(pick)
                 }
             ]
         },
-        html:   '<div class="st-column" data-st-column-width="6">'
+        html:   '<div class="st-column">'
               +     blocks.map(function(block) {
                         return    '<div class="st-row" data-st-type="' + block.type + '">'
                                 +     block.html
                                 + '</div>';
                     }).join('') 
               + '</div>'
-              + '<div class="st-column" data-st-column-width="6">'
+              + '<div class="st-column">'
               +     blocksReversed.map(function(block) {
                         return    '<div class="st-row" data-st-type="' + block.type + '">'
                                 +     block.html

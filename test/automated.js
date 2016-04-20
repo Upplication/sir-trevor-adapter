@@ -9,10 +9,6 @@ module.exports = function(type) {
 		{
 			adapter: 'TextAdapter',
 			key: 'format'
-		},
-		{
-			adapter: 'ColumnsAdapter',
-			key: 'preset'
 		}
 	]
 

@@ -25,7 +25,6 @@ ColumnsAdapter = {
         data.columns.map(function(column) {
             var columnHtml = adapter.toHTML(column.blocks);
             var $column = $(columnHtml);
-            $column.attr('data-' + adapter.config.containerClass + '-width', column.width);
             $container.append($column);
         });
 
@@ -37,7 +36,6 @@ ColumnsAdapter = {
         var $container = $('<div>' + html + '</div>');
         var result = {
             columns: [],
-            preset: 'columns-'
         };
 
         $container.find('.' + adapter.config.containerClass)
@@ -49,17 +47,10 @@ ColumnsAdapter = {
 
             var stColumn = {
                 blocks: adapter.toJSON($container.html()),
-                width: $column.data(adapter.config.containerClass + '-width')
             };
 
             result.columns.push(stColumn);
         });
-
-        result.preset += result.columns
-        .map(function(column) {
-            return column.width;
-        })
-        .join('-');
 
         return result;
     }
