@@ -170,6 +170,9 @@ var SirTrevorAdapter =
 	                if (!handler)
 	                    throw Error('No handler for ' + dataInstance.type);
 
+	                if (_.isEmpty(dataInstance.data))
+	                    return '';
+
 	                // -- No errors so far, start building the container
 
 	                var dummyDiv = $('<div>');
