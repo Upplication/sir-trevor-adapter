@@ -272,11 +272,23 @@ var SirTrevorAdapter =
 				$a.attr('style', $a.attr('style') + cssKey + ':' + cssVal + ';');
 			});
 
+			if (data._fontUrl) {
+				var $fontLink = $('<link>', {
+					type: 'text/css',
+					rel: 'stylesheet',
+					href: data._fontUrl
+				})
+				$div.prepend($fontLink)
+			}
+
 			return $div.html();
 		},
 
 		toJSON: function(html) {
-			var $a = $(html);
+			var $container = $(html);
+
+			var $a = $container.filter('a')
+			var $link = $container.filter('link')
 
 			var data = {};
 			data.format = 'html';
@@ -293,6 +305,9 @@ var SirTrevorAdapter =
 					var cssVal = v[1].trim();
 					data['css-' + cssAttr] = cssVal;
 				});
+
+			if ($link.length > 0)
+				data._fontUrl = $link.attr('href')
 
 			return data;
 		}
