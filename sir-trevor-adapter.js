@@ -245,7 +245,7 @@ var SirTrevorAdapter =
 /* 2 */
 /***/ function(module, exports) {
 
-	ButtonAdapter = {
+	var ButtonAdapter = {
 		name: 'ButtonAdapter',
 
 		handles : [
@@ -321,7 +321,7 @@ var SirTrevorAdapter =
 
 	var SirTrevorAdapter = __webpack_require__(1);
 
-	ColumnsAdapter = {
+	var ColumnsAdapter = {
 	    name: 'ColumnsAdapter',
 
 	    handles : [
@@ -383,7 +383,7 @@ var SirTrevorAdapter =
 /* 4 */
 /***/ function(module, exports) {
 
-	ImageAdapter = {
+	var ImageAdapter = {
 		name: 'ImageAdapter',
 
 		handles : [
@@ -432,7 +432,7 @@ var SirTrevorAdapter =
 /* 5 */
 /***/ function(module, exports) {
 
-	ListAdapter = {
+	var ListAdapter = {
 		name: 'ListAdapter',
 
 		handles : [
@@ -463,7 +463,7 @@ var SirTrevorAdapter =
 /* 6 */
 /***/ function(module, exports) {
 
-	MapAdapter = {
+	var MapAdapter = {
 	    name: 'MapAdapter',
 
 	    handles : [
@@ -498,7 +498,7 @@ var SirTrevorAdapter =
 /* 7 */
 /***/ function(module, exports) {
 
-	SpacerAdapter = {
+	var SpacerAdapter = {
 	    name: 'SpacerAdapter',
 
 	    handles : [
@@ -530,7 +530,7 @@ var SirTrevorAdapter =
 /* 8 */
 /***/ function(module, exports) {
 
-	TextAdapter = {
+	var TextAdapter = {
 		name: 'TextAdapter',
 
 		handles : [
@@ -579,7 +579,7 @@ var SirTrevorAdapter =
 /* 9 */
 /***/ function(module, exports) {
 
-	VideoAdapter = {
+	var VideoAdapter = {
 	    name: 'VideoAdapter',
 
 	    handles : [
