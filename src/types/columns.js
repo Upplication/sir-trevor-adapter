@@ -1,6 +1,6 @@
 var SirTrevorAdapter = require('../adapter.js');
 
-ColumnsAdapter = {
+var ColumnsAdapter = {
     name: 'ColumnsAdapter',
 
     handles : [

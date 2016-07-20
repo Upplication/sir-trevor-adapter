@@ -1,4 +1,4 @@
-VideoAdapter = {
+var VideoAdapter = {
     name: 'VideoAdapter',
 
     handles : [

@@ -1,4 +1,4 @@
-ListAdapter = {
+var ListAdapter = {
 	name: 'ListAdapter',
 
 	handles : [

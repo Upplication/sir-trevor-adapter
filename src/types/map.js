@@ -1,4 +1,4 @@
-MapAdapter = {
+var MapAdapter = {
     name: 'MapAdapter',
 
     handles : [

@@ -1,4 +1,4 @@
-ButtonAdapter = {
+var ButtonAdapter = {
 	name: 'ButtonAdapter',
 
 	handles : [

@@ -1,4 +1,4 @@
-TextAdapter = {
+var TextAdapter = {
 	name: 'TextAdapter',
 
 	handles : [

@@ -1,4 +1,4 @@
-ImageAdapter = {
+var ImageAdapter = {
 	name: 'ImageAdapter',
 
 	handles : [

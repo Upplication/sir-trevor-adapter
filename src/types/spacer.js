@@ -1,4 +1,4 @@
-SpacerAdapter = {
+var SpacerAdapter = {
     name: 'SpacerAdapter',
 
     handles : [
