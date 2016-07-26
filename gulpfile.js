@@ -22,6 +22,10 @@ var webpackTask = function(isProd) {
                     library: "SirTrevorAdapter",
                     filename: 'sir-trevor-adapter' + (isProd ? '.min.js' : '.js')
                 },
+                externals: {
+                    'jquery': 'jQuery',
+                    'lodash': '_'
+                },
                 plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : [],
             },
             function (err, stats) {

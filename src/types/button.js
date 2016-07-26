@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 var ButtonAdapter = {
 	name: 'ButtonAdapter',
 
