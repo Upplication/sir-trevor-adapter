@@ -5,10 +5,9 @@
   "authors": [
     "Souler <juanjo.herrero@upplication.com>"
   ],
-  "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML. This allows almost smealess integration of SirTrevor with backend architectures based on traditional WYSIWYG libraries.",
+  "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML.",
   "main": [
-    "sir-trevor-adapter.js",
-    "sir-trevor-adapter.min.js"
+    "sir-trevor-adapter.js"
   ],
   "keywords": [
     "sir",
@@ -31,5 +30,9 @@
     "package.json",
     "gulpfile.js"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jquery": ">=1 <2",
+    "lodash": ">=3 <4"
+  }
 }
