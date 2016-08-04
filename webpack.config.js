@@ -6,6 +6,7 @@ var generate = function(isProd) {
         },
         output: {
             library: 'SirTrevorAdapter',
+            libraryTarget: 'this',
             filename: '[name].' + (isProd ? 'min.' : '') + 'js'
         },
         plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : [],
