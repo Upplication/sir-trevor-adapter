@@ -4,9 +4,6 @@ var generate = function(isProd) {
         entry: {
             'sir-trevor-adapter': './src/index.js',
         },
-        resolve: {
-            modulesDirectories: [ 'bower_components' ]
-        },
         output: {
             library: 'SirTrevorAdapter',
             filename: '[name].' + (isProd ? 'min.' : '') + 'js'
