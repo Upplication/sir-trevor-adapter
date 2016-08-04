@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     bump = require('gulp-bump'),
     filter = require('gulp-filter'),
     tag = require('gulp-tag-version'),
-    webpack = require('webpack');
+    webpack = require('webpack'),
+    webpackConf = require('./webpack.config.js');
 
 /**
  * Generates the bundled version of the library,
@@ -15,25 +16,11 @@ var gulp = require('gulp'),
  */
 var webpackTask = function(isProd) {
     return function (cb) {
-        webpack(
-            {
-                entry: './src/index.js',
-                output: {
-                    library: "SirTrevorAdapter",
-                    filename: 'sir-trevor-adapter' + (isProd ? '.min.js' : '.js')
-                },
-                externals: {
-                    'jquery': 'jQuery',
-                    'lodash': '_'
-                },
-                plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : [],
-            },
-            function (err, stats) {
-                if(err) throw new gutil.PluginError("webpack", err);
-                gutil.log("[webpack]", stats.toString());
-                cb();
-            }
-        );  
+        webpack(webpackConf(isProd), function (err, stats) {
+            if(err) throw new gutil.PluginError("webpack", err);
+            gutil.log("[webpack]", stats.toString());
+            cb();
+        });
     }  
 }
 

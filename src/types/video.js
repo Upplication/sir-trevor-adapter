@@ -1,4 +1,6 @@
-var _ = require('lodash')
+var _isEmpty = require('lodash.isempty')
+var _template = require('lodash.template')
+
 
 var VideoAdapter = {
     name: 'VideoAdapter',
@@ -38,7 +40,7 @@ var VideoAdapter = {
         var protocol = window.location.protocol === "file:" ? 
           "http:" : window.location.protocol;
 
-        return _.template(source.html, {
+        return _template(source.html, {
             protocol: protocol,
             remote_id: data.remote_id
         });
@@ -53,7 +55,7 @@ var VideoAdapter = {
         var url = matchUrl[1];
         var self = this;
         return Object.keys(this.providers).reduce(function (result, providerKey) {
-            if (!_.isEmpty(result))
+            if (!_isEmpty(result))
                 return result;
 
             var provider = self.providers[providerKey];

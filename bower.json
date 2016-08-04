@@ -26,13 +26,8 @@
     "test",
     "tests",
     "doc",
-    "src",
     "package.json",
     "gulpfile.js"
   ],
-  "license": "MIT",
-  "dependencies": {
-    "jquery": ">=1 <2",
-    "lodash": ">=3 <4"
-  }
+  "license": "MIT"
 }

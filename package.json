@@ -4,7 +4,7 @@
   "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML. This allows almost smealess integration of SirTrevor with backend architectures based on traditional WYSIWYG libraries.\",",
   "main": "./src/index.js",
   "devDependencies": {
-    "cheerio": "^0.19.0",
+    "cheerio": "^0.20.0",
     "expose-loader": "^0.7.1",
     "extend": "^3.0.0",
     "gulp": "^3.9.0",
@@ -46,5 +46,13 @@
   "bugs": {
     "url": "https://github.com/Upplication/sir-trevor-adapter/issues"
   },
-  "homepage": "https://github.com/Upplication/sir-trevor-adapter#readme"
+  "homepage": "https://github.com/Upplication/sir-trevor-adapter#readme",
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "lodash.isarray": "^4.0.0",
+    "lodash.isempty": "^4.3.1",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^4.0.1",
+    "lodash.template": "^4.3.0"
+  }
 }

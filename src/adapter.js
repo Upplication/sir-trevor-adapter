@@ -1,5 +1,11 @@
 'use strict'
 
+var $ = require('cheerio')
+var _isEmpty = require('lodash.isempty')
+var _isObject = require('lodash.isobject')
+var _isArray = require('lodash.isarray')
+var _isString = require('lodash.isstring')
+
 /**
  * @typedef {Object} SirTrevorAdapterConfig
  * @property {String} elementEnclosingTag - Defines the HTML tag to be used arround every SirTrevorData that is serialized by this instance.
@@ -52,7 +58,7 @@ var SirTrevorAdapter = function(userConfig, adapters) {
          * @memberof SirTrevorAdapter
          */
         isSirTrevorData: function(obj) {
-            return !!(obj && obj.type && obj.data && _.isObject(obj.data) && _.isString(obj.type));
+            return !!(obj && obj.type && obj.data && _isObject(obj.data) && _isString(obj.type));
         },
 
         /**
@@ -88,7 +94,7 @@ var SirTrevorAdapter = function(userConfig, adapters) {
          */
         toHTML: function(data) {
             var wasArray = true;
-            if (!_.isArray(data)) {
+            if (!_isArray(data)) {
                 data = [ data ];
                 wasArray = false;
             }
@@ -105,7 +111,7 @@ var SirTrevorAdapter = function(userConfig, adapters) {
                 if (!handler)
                     throw Error('No handler for ' + dataInstance.type);
 
-                if (_.isEmpty(dataInstance.data))
+                if (_isEmpty(dataInstance.data))
                     return '';
 
                 // -- No errors so far, start building the container

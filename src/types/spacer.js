@@ -1,4 +1,4 @@
-var _ = require('lodash')
+var _template = require('lodash.template')
 
 var SpacerAdapter = {
     name: 'SpacerAdapter',
@@ -8,7 +8,7 @@ var SpacerAdapter = {
     ],
 
     toHTML: function(data) {
-        return _.template('<div style="margin:<%= height %><%= units %> 0;"></div', data);
+        return _template('<div style="margin:<%= height %><%= units %> 0;"></div', data);
     },
 
     toJSON: function(html) {
