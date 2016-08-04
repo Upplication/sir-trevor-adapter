@@ -39,7 +39,7 @@ var webpackTask = function(isProd) {
  */
 var inc = function(importance) {
     // get all the files to bump version in
-    return gulp.src(['./package.json', './bower.json'])
+    return gulp.src(['./package.json'])
         .pipe(bump({type: importance}))            // bump the version number in those files
         .pipe(gulp.dest('./'))                     // save it back to filesystem
         .pipe(addsrc(['./sir-trevor-adapter.*', './sir-trevor-adapter.min.*']))
