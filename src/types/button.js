@@ -1,4 +1,4 @@
-var $ = require('cheerio');
+var $ = require('jquery');
 
 var ButtonAdapter = {
 	name: 'ButtonAdapter',

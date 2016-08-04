@@ -1,6 +1,6 @@
 'use strict'
 
-var $ = require('cheerio')
+var $ = require('jquery')
 var _isEmpty = require('lodash.isempty')
 var _isObject = require('lodash.isobject')
 var _isArray = require('lodash.isarray')

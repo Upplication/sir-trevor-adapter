@@ -16,7 +16,7 @@ var gulp = require('gulp'),
  */
 var webpackTask = function(isProd) {
     return function (cb) {
-        webpack(webpackConf(isProd), function (err, stats) {
+        webpack(webpackConf.generate(isProd), function (err, stats) {
             if(err) throw new gutil.PluginError("webpack", err);
             gutil.log("[webpack]", stats.toString());
             cb();

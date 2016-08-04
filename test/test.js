@@ -2,8 +2,12 @@ var assert = require('assert');
 var should = require('should');
 var auto = require('./automated');
 var testCases = require('./data');
+require('jsdom-global')() // Mock browser
 
 describe('SirTrevorAdapter', function() {
+	var SirTrevorAdapter = require('../src/index');
+	var sta = new SirTrevorAdapter();
+
 	describe('#isSirTrevorData()', function() {
 		it('should be true when is a valid SirTrevorData', function() {
 			should(sta.isSirTrevorData({ type: 'type', data: {} })).be.exactly(true);
@@ -44,23 +48,23 @@ describe('SirTrevorAdapter', function() {
 	})
 	describe('#getAdapterFor()', function() {
 		[
-			{ type: 'button', 		expectedAdapter: 'ButtonAdapter' },
-			{ type: 'image', 		expectedAdapter: 'ImageAdapter' },
-			{ type: 'image_edit', 	expectedAdapter: 'ImageAdapter' },
-			{ type: 'list', 		expectedAdapter: 'ListAdapter' },
-			{ type: 'map', 			expectedAdapter: 'MapAdapter' },
-			{ type: 'spacer', 		expectedAdapter: 'SpacerAdapter' },
-			{ type: 'text', 		expectedAdapter: 'TextAdapter' },
-			{ type: 'heading', 		expectedAdapter: 'TextAdapter' },
-			{ type: 'ck_editor', 	expectedAdapter: 'TextAdapter' },
-			{ type: 'quote', 		expectedAdapter: 'TextAdapter' },
-			{ type: 'widget', 		expectedAdapter: 'TextAdapter' },
-			{ type: 'video', 		expectedAdapter: 'VideoAdapter' },
-			{ type: 'columns', 		expectedAdapter: 'ColumnsAdapter' },
+			{ type: 'button', 		expectedAdapter: SirTrevorAdapter.ButtonAdapter },
+			{ type: 'image', 		expectedAdapter: SirTrevorAdapter.ImageAdapter },
+			{ type: 'image_edit', 	expectedAdapter: SirTrevorAdapter.ImageAdapter },
+			{ type: 'list', 		expectedAdapter: SirTrevorAdapter.ListAdapter },
+			{ type: 'map', 			expectedAdapter: SirTrevorAdapter.MapAdapter },
+			{ type: 'spacer', 		expectedAdapter: SirTrevorAdapter.SpacerAdapter },
+			{ type: 'text', 		expectedAdapter: SirTrevorAdapter.TextAdapter },
+			{ type: 'heading', 		expectedAdapter: SirTrevorAdapter.TextAdapter },
+			{ type: 'ck_editor', 	expectedAdapter: SirTrevorAdapter.TextAdapter },
+			{ type: 'quote', 		expectedAdapter: SirTrevorAdapter.TextAdapter },
+			{ type: 'widget', 		expectedAdapter: SirTrevorAdapter.TextAdapter },
+			{ type: 'video', 		expectedAdapter: SirTrevorAdapter.VideoAdapter },
+			{ type: 'columns', 		expectedAdapter: SirTrevorAdapter.ColumnsAdapter },
 		].forEach(function (e) {
-			it('should be ' + e.expectedAdapter + ' when type is ' + e.type, function() {
-				should(sta.getAdapterFor( e.type )).equal(SirTrevorAdapter[e.expectedAdapter]);
-				should(sta.getAdapterFor( { type: e.type } )).equal(SirTrevorAdapter[e.expectedAdapter]);
+			it('should be ' + e.expectedAdapter.name + ' when type is ' + e.type, function() {
+				should(sta.getAdapterFor( e.type )).equal(e.expectedAdapter);
+				should(sta.getAdapterFor( { type: e.type } )).equal(e.expectedAdapter);
 			})
 		})
 		it('should be null if an unhandled type', function() {

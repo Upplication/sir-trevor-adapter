@@ -1,4 +1,4 @@
-var $ = require('cheerio');
+var $ = require('jquery');
 var SirTrevorAdapter = require('../adapter.js');
 
 var ColumnsAdapter = {

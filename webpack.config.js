@@ -1,13 +1,11 @@
 var webpack = require('webpack')
-module.exports = function(isProd) {
+var generate = function(isProd) {
     return {
         entry: {
             'sir-trevor-adapter': './src/index.js',
         },
         resolve: {
-            alias: {
-                cheerio: 'jquery/src/core'
-            }
+            modulesDirectories: [ 'bower_components' ]
         },
         output: {
             library: 'SirTrevorAdapter',
@@ -16,3 +14,6 @@ module.exports = function(isProd) {
         plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : [],
     }
 }
+
+module.exports = generate(false)
+module.exports.generate = generate
