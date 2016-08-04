@@ -24,7 +24,8 @@
     "webpack": "^1.12.9"
   },
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha"
+    "test": "node ./node_modules/mocha/bin/mocha",
+    "preversion": "echo \"Please use gulp [patch|feature|release] instead\" && exit 1"
   },
   "repository": {
     "type": "git",
