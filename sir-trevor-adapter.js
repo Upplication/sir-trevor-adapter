@@ -1,4 +1,4 @@
-var SirTrevorAdapter =
+this["SirTrevorAdapter"] =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
