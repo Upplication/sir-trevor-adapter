@@ -1,4 +1,5 @@
-var _template = require('lodash.template')
+var $ = require('jquery');
+var _template = require('lodash.template');
 
 var MapAdapter = {
     name: 'MapAdapter',
@@ -15,6 +16,7 @@ var MapAdapter = {
     },
 
     toJSON: function(html) {
+        var src = $(html).find('img').attr('src');
         var rgx = /center=(.*?)&.*zoom=([0-9]+)&.*scale=([0-9]+)/;
         var match = rgx.exec(html);
 
