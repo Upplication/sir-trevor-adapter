@@ -1,11 +1,12 @@
 var gulp = require('gulp'),
-    gutil = require("gulp-util"),
+    gutil = require('gulp-util'),
     addsrc = require('gulp-add-src'),
     jsdoc = require('gulp-jsdoc'),
     git = require('gulp-git'),
     bump = require('gulp-bump'),
     filter = require('gulp-filter'),
     tag = require('gulp-tag-version'),
+    seq = require('run-sequence'),
     webpack = require('webpack'),
     webpackConf = require('./webpack.config.js');
 
@@ -56,9 +57,9 @@ gulp.task('tag-patch', function() { return inc('patch'); });
 gulp.task('tag-feature', function() { return inc('minor'); });
 gulp.task('tag-release', function() { return inc('major'); });
 
-gulp.task('patch', ['compile', 'tag-patch'])
-gulp.task('feature', ['compile', 'tag-feature'])
-gulp.task('release', ['compile', 'tag-release'])
+gulp.task('patch', function() { return seq('compile', 'tag-patch') } )
+gulp.task('feature', function() { return seq('compile', 'tag-feature') } )
+gulp.task('release', function() { return seq('compile', 'tag-release') } )
 
 gulp.task('doc', function() {
     gulp.src("./src/*.js")
