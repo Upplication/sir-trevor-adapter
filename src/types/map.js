@@ -18,10 +18,10 @@ var MapAdapter = {
     toJSON: function(html) {
         var src = $(html).find('img').attr('src');
         var rgx = /center=(.*?)&.*zoom=([0-9]+)&.*scale=([0-9]+)/;
-        var match = rgx.exec(html);
+        var match = rgx.exec(src);
 
         if (!match)
-            return {};
+            return null;
 
         return {
             address: match[1],

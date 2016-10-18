@@ -10,6 +10,9 @@ var generate = function(isProd) {
             filename: '[name].' + (isProd ? 'min.' : '') + 'js'
         },
         plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : [],
+        externals: {
+            "jquery": "jQuery"
+        }
     }
 }
 
