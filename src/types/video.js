@@ -40,7 +40,7 @@ var VideoAdapter = {
         var protocol = window.location.protocol === "file:" ? 
           "http:" : window.location.protocol;
 
-        return _template(source.html, {
+        return _template(source.html)({
             protocol: protocol,
             remote_id: data.remote_id
         });

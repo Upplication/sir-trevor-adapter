@@ -8,7 +8,7 @@ var SpacerAdapter = {
     ],
 
     toHTML: function(data) {
-        return _template('<div style="margin:<%= height %><%= units %> 0;"></div', data);
+        return _template('<div style="margin:<%= height %><%= units %> 0;"></div')(data);
     },
 
     toJSON: function(html) {
