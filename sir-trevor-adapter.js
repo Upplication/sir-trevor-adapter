@@ -43,7 +43,7 @@ this["SirTrevorAdapter"] =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict'
 
@@ -59,9 +59,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = SirTrevorAdapter;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict'
 
@@ -247,15 +247,15 @@ this["SirTrevorAdapter"] =
 
 	module.exports = SirTrevorAdapter;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	(function() { module.exports = this["jQuery"]; }());
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, module) {/**
 	 * lodash (Custom Build) <https://lodash.com/>
@@ -842,9 +842,9 @@ this["SirTrevorAdapter"] =
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(4)(module)))
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = function(module) {
 		if(!module.webpackPolyfill) {
@@ -858,9 +858,9 @@ this["SirTrevorAdapter"] =
 	}
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * lodash 3.0.2 (Custom Build) <https://lodash.com/>
@@ -901,9 +901,9 @@ this["SirTrevorAdapter"] =
 	module.exports = isObject;
 
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * lodash 4.0.0 (Custom Build) <https://lodash.com/>
@@ -942,9 +942,9 @@ this["SirTrevorAdapter"] =
 	module.exports = isArray;
 
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * lodash 4.0.1 (Custom Build) <https://lodash.com/>
@@ -1043,9 +1043,9 @@ this["SirTrevorAdapter"] =
 	module.exports = isString;
 
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(2);
 
@@ -1119,9 +1119,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = ButtonAdapter;
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(2);
 	var SirTrevorAdapter = __webpack_require__(1);
@@ -1184,9 +1184,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = ColumnsAdapter;
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	var ImageAdapter = {
 		name: 'ImageAdapter',
@@ -1233,9 +1233,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = ImageAdapter;
 
-/***/ },
+/***/ }),
 /* 11 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	var ListAdapter = {
 		name: 'ListAdapter',
@@ -1264,9 +1264,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = ListAdapter;
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(2);
 	var _template = __webpack_require__(13);
@@ -1303,9 +1303,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = MapAdapter;
 
-/***/ },
+/***/ }),
 /* 13 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * lodash (Custom Build) <https://lodash.com/>
@@ -2442,9 +2442,9 @@ this["SirTrevorAdapter"] =
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 14 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * lodash 3.0.0 (Custom Build) <https://lodash.com/>
@@ -2461,9 +2461,9 @@ this["SirTrevorAdapter"] =
 	module.exports = reInterpolate;
 
 
-/***/ },
+/***/ }),
 /* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * lodash (Custom Build) <https://lodash.com/>
@@ -2748,9 +2748,9 @@ this["SirTrevorAdapter"] =
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _template = __webpack_require__(13)
 
@@ -2782,9 +2782,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = SpacerAdapter;
 
-/***/ },
+/***/ }),
 /* 17 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	var TextAdapter = {
 		name: 'TextAdapter',
@@ -2831,9 +2831,9 @@ this["SirTrevorAdapter"] =
 
 	module.exports = TextAdapter;
 
-/***/ },
+/***/ }),
 /* 18 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _isEmpty = __webpack_require__(3)
 	var _template = __webpack_require__(13)
@@ -2911,5 +2911,5 @@ this["SirTrevorAdapter"] =
 
 	module.exports = VideoAdapter;
 
-/***/ }
+/***/ })
 /******/ ]);
