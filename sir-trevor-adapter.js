@@ -1,5 +1,14 @@
-this["SirTrevorAdapter"] =
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("jQuery"));
+	else if(typeof define === 'function' && define.amd)
+		define(["jQuery"], factory);
+	else if(typeof exports === 'object')
+		exports["SirTrevorAdapter"] = factory(require("jQuery"));
+	else
+		root["SirTrevorAdapter"] = factory(root["jQuery"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -251,7 +260,7 @@ this["SirTrevorAdapter"] =
 /* 2 */
 /***/ (function(module, exports) {
 
-	(function() { module.exports = this["jQuery"]; }());
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ }),
 /* 3 */
@@ -2912,4 +2921,6 @@ this["SirTrevorAdapter"] =
 	module.exports = VideoAdapter;
 
 /***/ })
-/******/ ]);
+/******/ ])
+});
+;

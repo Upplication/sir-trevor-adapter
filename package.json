@@ -1,6 +1,6 @@
 {
   "name": "sir-trevor-adapter",
-  "version": "1.0.60",
+  "version": "1.1.0",
   "description": "Sir Trevor Adapter allows to serialize/deserialize data from a SirTrevor instance into plain HTML. This allows almost smealess integration of SirTrevor with backend architectures based on traditional WYSIWYG libraries.\",",
   "main": "./src/index.js",
   "devDependencies": {
