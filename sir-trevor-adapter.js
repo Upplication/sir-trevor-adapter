@@ -1,10 +1,10 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("jQuery"));
+		module.exports = factory(require(undefined));
 	else if(typeof define === 'function' && define.amd)
-		define(["jQuery"], factory);
+		define(["jquery"], factory);
 	else if(typeof exports === 'object')
-		exports["SirTrevorAdapter"] = factory(require("jQuery"));
+		exports["SirTrevorAdapter"] = factory(require("jquery"));
 	else
 		root["SirTrevorAdapter"] = factory(root["jQuery"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
