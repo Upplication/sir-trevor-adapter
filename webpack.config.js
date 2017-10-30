@@ -11,7 +11,11 @@ var generate = function(isProd) {
         },
         plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : [],
         externals: {
-            "jquery": "jQuery"
+            jquery: {
+                commonjs: 'jquery',
+                amd: 'jquery',
+                root: 'jQuery'
+            }
         }
     }
 }
