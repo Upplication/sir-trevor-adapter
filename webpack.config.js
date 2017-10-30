@@ -13,6 +13,7 @@ var generate = function(isProd) {
         externals: {
             jquery: {
                 commonjs: 'jquery',
+                commonjs2: 'jquery',
                 amd: 'jquery',
                 root: 'jQuery'
             }
