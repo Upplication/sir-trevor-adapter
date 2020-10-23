@@ -37,7 +37,7 @@ var VideoAdapter = {
 
         var source = this.providers[data.source];
 
-        var protocol = window.location.protocol === "file:" ? 
+        var protocol = window.location.protocol === "file:" || window.location.protocol === "ionic:" ?
           "http:" : window.location.protocol;
 
         return _template(source.html)({
